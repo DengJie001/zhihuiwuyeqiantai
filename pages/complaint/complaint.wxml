@@ -1,0 +1,7 @@
+<cu-custom bgColor="bg-gradual-pink" isBack="{{true}}">
+    <view slot="backText">返回</view>
+    <view slot="content">投诉建议</view>
+</cu-custom>
+<view class="page">
+    <button bindtap="chooseImage">选择图片</button>
+</view>

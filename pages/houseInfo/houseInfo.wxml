@@ -1,0 +1,4 @@
+<cu-custom bgColor="bg-gradual-pink" isBack="{{true}}">
+    <view slot="backText">返回</view>
+    <view slot="content">房产信息</view>
+</cu-custom>

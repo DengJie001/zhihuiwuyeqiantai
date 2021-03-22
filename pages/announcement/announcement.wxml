@@ -1,0 +1,29 @@
+<cu-custom bgColor="bg-gradual-green" isBack="{{true}}">
+    <view slot="backText">返回</view>
+    <view slot="content">社区公告</view>
+</cu-custom>
+<view class="page">
+    <view class="cu-bar bg-white search">
+        <view class="cu-form-group">
+            <picker bindchange="pickerChange" value="{{index}}" range="{{property}}">
+                <view class="picker">
+                    {{index ? property[index] : '选择属性'}}
+                </view>
+            </picker>
+        </view>
+        <view class="search-form round">
+            <text class="cuIcon-search"></text>
+            <input type="text" placeholder="输入省份/直辖市,例如:重庆,江苏" bindinput="getInputValue" />
+        </view>
+        <view style="margin-left: 20rpx;">
+            <button class="cu-btn round bg-blue button-hover" bindtap="toCity">搜索</button>
+        </view>
+    </view>
+    <scroll-view scroll-y="true" scroll-with-animation="true">
+        <block wx:for="{{property}}" wx:for-index="index" wx:for-item="item">
+            <view class="shadow bg-gradual-green radius">
+                {{item}}
+            </view>
+        </block>
+    </scroll-view>
+</view>

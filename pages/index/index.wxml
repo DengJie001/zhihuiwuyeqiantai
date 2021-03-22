@@ -1,0 +1,109 @@
+<cu-custom bgColor="bg-gradual-pink">
+    <view slot="content">智慧物业</view>
+</cu-custom>
+<view class="page">
+    <swiper class="card-swiper round-dot" indicator-dots="true" circular="true" autoplay="true" interval="5000"
+        duration="500" indicator-color="#8799a3" indicator-active-color="#0081ff">
+        <swiper-item wx:for="{{swiperList}}" wx:key class="{{cardCur==index?'cur':''}}">
+            <view class="swiper-item">
+                <image src="{{item.url}}" mode="aspectFill" wx:if="{{item.type=='image'}}"></image>
+            </view>
+        </swiper-item>
+    </swiper>
+    <!-- 社区公告板块 -->
+    <view class="padding">
+        <view class="bg-gradual-pink basis-xl margin-left-xs padding-sm radius">社区公告</view>
+        <view class="flex text-center">
+            <view class="item flex-sub padding-xs margin-xs radius bg-red" bindtap="goto" data-tag="社区公告">
+                <view>
+                    <image src="../../images/公告.png" class="item-picture"></image>
+                </view>
+                <view class="item-title">社区公告</view>
+            </view>
+            <!-- 格式占位 -->
+            <view class="item flex-sub padding-xs margin-xs radius bg- ">
+            </view>
+            <view class="item flex-sub padding-xs margin-xs radius bg- ">
+            </view>
+        </view>
+    </view>
+    <!-- 社区物业服务板块 -->
+    <view class="padding">
+        <view class="bg-gradual-green basis-xl margin-left-xs padding-sm radius">物业服务</view>
+        <view class="flex text-center">
+            <view class="item flex-sub bg-gradual-pink padding-xs margin-xs radius" style="height: 100rpx;" bindtap="goto" data-tag="场地申请">
+                <view>
+                    <image src="../../images/申请.png" class="item-picture"></image>
+                </view>
+                <view class="item-title">活动场地申请</view>
+            </view>
+            <view class="item flex-sub padding-xs margin-xs radius bg-blue" style="height: 100rpx;" bindtap="goto" data-tag="缴费中心">
+                <view>
+                    <image src="../../images/缴费中心.png" class="item-picture"></image>
+                </view>
+                <view class="item-title">缴费中心</view>
+            </view>
+            <view class="item flex-sub padding-xs margin-xs radius bg-yellow" style="height: 100rpx;" bindtap="goto" data-tag="小区活动">
+                <view>
+                    <image src="../../images/活动.png" class="item-picture"></image>
+                </view>
+                <view class="item-title">小区活动</view>
+            </view>
+        </view>
+        <view class="flex text-center">
+            <view class="item flex-sub padding-xs margin-xs radius bg-grey" style="height: 100rpx;" bindtap="goto" data-tag="物业报修">
+                <view>
+                    <image src="../../images/维修.png" class="item-picture"></image>
+                </view>
+                <view class="item-title">物业报修</view>
+            </view>
+            <view class="item flex-sub padding-xs margin-xs radius bg-grey" style="height: 100rpx;"  bindtap="goto" data-tag="投诉建议">
+                <view>
+                    <image src="../../images/投诉建议.png" class="item-picture"></image>
+                </view>
+                <view class="item-title">投诉建议</view>
+            </view>
+            <!-- 格式占位 -->
+            <view class="item flex-sub padding-xs margin-xs radius" style="height: 100rpx;">
+            </view>
+        </view>
+    </view>
+    <!-- 生活查询板块 -->
+    <view class="padding">
+        <view class="bg-gradual-blue basis-xl margin-left-xs padding-sm radius">生活查询</view>
+        <view class="flex text-center">
+            <view class="item flex-sub padding-xs margin-xs radius bg-gradual-orange" style="height: 100rpx;" bindtap="goto" data-tag="今日油价">
+                <view>
+                    <image src="../../images/石油.png" class="item-picture"></image>
+                </view>
+                <view class="item-title">今日油价</view>
+            </view>
+            <view class="item flex-sub padding-xs margin-xs radius bg-gradual-blue" style="height: 100rpx;" bindtap="goto" data-tag="天气预报">
+                <view>
+                    <image src="../../images/天气预报.png" class="item-picture"></image>
+                </view>
+                <view class="item-title">天气预报</view>
+            </view>
+            <!-- 格式占位 -->
+            <view class="item flex-sub padding-xs margin-xs radius" style="height: 100rpx;">
+            </view>
+        </view>
+    </view>
+    <!-- 房产 -->
+    <view class="padding">
+        <view class="bg-gradual-green basis-xl margin-left-xs padding-sm radius">房产服务</view>
+        <view class="flex text-center">
+            <view class="item flex-sub padding-xs margin-xs radius bg-brown" style="height 100rpx;" bindtap="goto" data-tag="小区房产">
+                <view>
+                    <image src="../../images/房产.png" class="item-picture"></image>
+                </view>
+                <view class="item-title">小区房产</view>
+            </view>
+            <!-- 格式占位 -->
+            <view class="item flex-sub padding-xs margin-xs radius" style="height: 100rpx;">
+            </view>
+            <view class="item flex-sub padding-xs margin-xs radius" style="height: 100rpx;">
+            </view>
+        </view>
+    </view>
+</view>

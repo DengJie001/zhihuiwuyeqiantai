@@ -1,0 +1,27 @@
+{
+    "pages": [
+        "pages/index/index",
+        "pages/demo/demo",
+        "pages/userRegister/userRegister",
+        "pages/oilPrice/oilPrice",
+        "pages/announcement/announcement",
+        "pages/placeApplication/placeApplication",
+        "pages/payment/payment",
+        "pages/activities/activities",
+        "pages/repair/repair",
+        "pages/complaint/complaint",
+        "pages/weather/weather",
+        "pages/houseInfo/houseInfo"
+    ],
+    "window": {
+        "backgroundTextStyle": "light",
+        "navigationBarBackgroundColor": "#fff",
+        "navigationBarTitleText": "智慧物业",
+        "navigationStyle": "custom",
+        "navigationBarTextStyle": "black"
+    },
+    "usingComponents": {
+        "cu-custom": "colorui/components/cu-custom"
+    },
+    "sitemapLocation": "sitemap.json"
+}

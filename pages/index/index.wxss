@@ -1,0 +1,11 @@
+.item-picture {
+  border-radius: 50%;
+  height: 50rpx;
+  width: 50rpx;
+  background-color: white;
+}
+
+.item-title {
+  color: white;
+  font-size: 20rpx;
+}

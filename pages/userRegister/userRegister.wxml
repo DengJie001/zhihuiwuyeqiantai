@@ -1,0 +1,38 @@
+<cu-custom bgColor="bg-gradual-pink">
+	<view slot="content">注册</view>
+</cu-custom>
+<view class="page">
+    <form>
+        <view class="cu-form-group margin-top {{nameAnimation == true ? 'animation-shake' : ''}}">
+            <view class="title">姓名</view>
+            <input type="text" placeholder="请填写真实姓名" data-code="name" bindinput="getInputValue" />
+        </view>
+        <view class="cu-form-group {{phoneNumberAnimation == true ? 'animation-shake' : ''}}">
+            <view class="title">电话号码</view>
+            <input type="text" placeholder="请填入本人电话号码" data-code="phoneNumber" bindinput="getInputValue" />
+            <view class="cu-capsule radius">
+                <view class="cu-tag bg-blue">+86</view>
+                <view class="cu-tag line-blue">中国大陆</view>
+            </view>
+        </view>
+        <view class="cu-form-group {{verifyCodeAnimation == true ? 'animation-shake' : ''}}">
+            <view class="title">验证码</view>
+            <input type="text" placeholder="输入验证码" data-code="verifyCode" bindinput="getInputValue" />
+            <button class="cu-btn bg-green shadow" disabled="{{disabled}}" bindtap="sendVerifyCode">{{btnText}}</button>
+        </view>
+        <!-- TODO 添加选择器 -->
+        <view class="cu-form-group">
+            <view class="title">区号</view>
+        </view>
+        <view class="cu-form-group">
+            <view class="title">单元号</view>
+        </view>
+        <view class="cu-form-group">
+            <view class="title">房间号</view>
+        </view>
+        <view class="btn-container">        
+            <button class="cu-btn round bg-gradual-blue shadow" bindtap="doRegister">注册</button>
+            <button class="cu-btn round bg-gradual-red shadow" form-type="reset">重置</button>
+        </view>
+    </form>
+</view>
