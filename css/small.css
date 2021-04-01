@@ -1,0 +1,8 @@
+.my-container {
+	justify-items: center;
+	align-items: center;
+}
+
+.my-container > div {
+	margin-left: 45%;
+}
