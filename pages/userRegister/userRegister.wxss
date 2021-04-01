@@ -1,0 +1,7 @@
+.btn-container {
+    margin-top: 90rpx;
+    align-items: center;
+    justify-items: center;
+    display: flex;
+    text-align: center;
+}

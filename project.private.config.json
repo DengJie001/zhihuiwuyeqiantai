@@ -1,0 +1,29 @@
+{
+    "setting": {},
+    "condition": {
+        "plugin": {
+            "list": []
+        },
+        "game": {
+            "list": []
+        },
+        "gamePlugin": {
+            "list": []
+        },
+        "miniprogram": {
+            "list": [
+                {
+                    "name": "pages/demo/demo",
+                    "pathName": "pages/demo/demo",
+                    "query": "",
+                    "scene": null
+                },
+                {
+                    "name": "pages/userRegister/userRegister",
+                    "pathName": "pages/userRegister/userRegister",
+                    "scene": null
+                }
+            ]
+        }
+    }
+}

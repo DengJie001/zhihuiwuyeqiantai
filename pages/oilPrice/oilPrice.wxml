@@ -1,0 +1,29 @@
+<cu-custom bgColor="bg-gradual-pink" isBack="{{true}}">
+    <view slot="backText">返回</view>
+    <view slot="content">今日全国油价</view>
+</cu-custom>
+<view class="page">
+    <view class="cu-bar bg-white search">
+        <view class="search-form round" style="width: 80%;">
+            <text class="cuIcon-search"></text>
+            <input type="text" placeholder="输入省份/直辖市,例如:重庆,江苏" bindinput="getInputValue" />
+        </view>
+        <view style="margin-left: 20rpx;">
+            <button class="cu-btn round bg-blue button-hover" bindtap="toCity">搜索</button>
+        </view>
+    </view>
+    <scroll-view scroll-into-view="{{cityId}}" scroll-y="true" scroll-with-animation="true" style="height: {{height - 100}}px;">
+        <view class="padding flex" id="city-container" wx:for="{{cityList}}" wx:for-index="index"
+            wx:for-item="city">
+            <view class="flex-sub align-center" id="{{city.id}}">
+                <view class="city basis-xl bg-yellow padding-sm radius" style="color: white;">地区:{{city.city}}</view>
+                <view style="width: 90%;" class="shadow shadow-lg padding-sm margin-top-xs grid col-1 radius bg-brown" style="color: white;">
+                    <view style="color:white;" class="city margin-top-xs">92号: {{city.NO_92}}元</view>
+                    <view style="color:white;" class="city margin-top-xs">95号: {{city.NO_95}}元</view>
+                    <view style="color:white;" class="city margin-top-xs">98号: {{city.NO_98}}元</view>
+                    <view style="color:white;" class="city margin-top-xs">0号: {{city.NO_0}}元</view>
+                </view>
+            </view>
+        </view>
+    </scroll-view>
+</view>
