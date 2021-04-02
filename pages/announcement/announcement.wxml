@@ -68,7 +68,7 @@
             </view>
         </view>
         <view class="padding-xl">
-            日期格式:xxxx-xx-xx,例如:{{year}}-{{month}}-{{date}}
+            {{tips}}
         </view>
     </view>
 </view>
