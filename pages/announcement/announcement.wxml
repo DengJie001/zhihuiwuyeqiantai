@@ -13,17 +13,62 @@
         </view>
         <view class="search-form round">
             <text class="cuIcon-search"></text>
-            <input type="text" placeholder="输入省份/直辖市,例如:重庆,江苏" bindinput="getInputValue" />
+            <input type="text" placeholder="输入关键字进行查询" bindinput="getInputValue" />
         </view>
         <view style="margin-left: 20rpx;">
-            <button class="cu-btn round bg-blue button-hover" bindtap="toCity">搜索</button>
+            <button class="cu-btn round bg-blue button-hover" bindtap="search">搜索</button>
         </view>
     </view>
+
+    <!-- 置顶公告区域 -->
+    <view class="flex justify-center">
+        <view class="shadow bg-white radius margin-sm" style="width: 90%;">
+            <view class="flex margin-top-xs margin-left-xs">
+                <view class="flex-sub text-cut" style="width: 90%;">标题：{{topAnnouncement.title}}</view>
+                <view class="flex justify-end" hidden="{{isTop}}">
+                    <view class="margin-right-sm cu-tag bg-red">置顶</view>
+                </view>
+            </view>
+            <view class="margin-top-xs margin-left-xs">发布人：{{topAnnouncement.authorName}}</view>
+            <view class="text-cut margin-top-xs margin-left-xs" style="width: 90%;">
+                内容：{{topAnnouncement.content}}
+            </view>
+            <view class="margin-top-xs margin-bottom-xs margin-left-xs">日期：{{topAnnouncement.date}}</view>
+        </view>
+    </view>
+    
+    <!-- 非置顶公告列表区域 -->
     <scroll-view scroll-y="true" scroll-with-animation="true">
-        <block wx:for="{{property}}" wx:for-index="index" wx:for-item="item">
-            <view class="shadow bg-gradual-green radius">
-                {{item}}
+        <block wx:for="{{announcements}}" wx:for-index="index" wx:for-item="item">
+            <view class="flex justify-center">
+                <view class="shadow bg-white radius margin-sm" style="width: 90%;">
+                    <view class="flex margin-top-xs margin-left-xs">
+                        <view class="flex-sub text-cut" style="width: 90%;">标题：{{item.title}}</view>
+                        <view class="flex justify-end" hidden="{{item.top == '否'}}">
+                        </view>
+                    </view>
+                    <view class="margin-top-xs margin-left-xs">发布人：{{item.authorName}}</view>
+                    <view class="text-cut margin-top-xs margin-left-xs" style="width: 90%;">
+                        内容：{{item.content}}</view>
+                    <view class="margin-top-xs margin-bottom-xs margin-left-xs">日期：{{item.date}}</view>
+                </view>
             </view>
         </block>
+        <view class="text-red text-center padding text-sm margin-bottom-sm" hidden="{{page <= pageNum}}">
+            ----------------------我是有底线的----------------------
+        </view>
     </scroll-view>
+</view>
+<view class="cu-modal {{modal=='yes'?'show':''}}">
+    <view class="cu-dialog">
+        <view class="cu-bar bg-white justify-end">
+            <view class="content">提示</view>
+            <view class="action" bindtap="hideModal">
+                <text class="cuIcon-close text-red"></text>
+            </view>
+        </view>
+        <view class="padding-xl">
+            {{tips}}
+        </view>
+    </view>
 </view>

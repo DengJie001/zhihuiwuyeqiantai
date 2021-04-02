@@ -5,6 +5,7 @@
         "pages/userRegister/userRegister",
         "pages/oilPrice/oilPrice",
         "pages/announcement/announcement",
+        "pages/announcementDetail/announcementDetail",
         "pages/placeApplication/placeApplication",
         "pages/payment/payment",
         "pages/activities/activities",

@@ -6,6 +6,7 @@
     "setting": {
         "urlCheck": false,
         "es6": true,
+        "enhance": true,
         "postcss": true,
         "preloadBackgroundData": false,
         "minified": true,
@@ -32,8 +33,7 @@
         "userConfirmedBundleSwitch": false,
         "packNpmManually": false,
         "packNpmRelationList": [],
-        "minifyWXSS": true,
-        "enhance": true
+        "minifyWXSS": true
     },
     "compileType": "miniprogram",
     "libVersion": "2.15.0",
