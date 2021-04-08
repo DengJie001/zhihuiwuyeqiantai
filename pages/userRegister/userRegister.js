@@ -194,7 +194,7 @@ Page({
             console.log(res);
         });
         console.log('后续操作');
-        return;
+        // return;
         // 如果含有格式不正确的字段 阻止提交
         if (!canSubmit) {
             wx.showToast({

@@ -1,1 +1,5 @@
-/* pages/placeApplication/placeApplication.wxss */
+#placeId {
+    font-size: large;
+    font-style: italic;
+    color: #ed1c24;
+}

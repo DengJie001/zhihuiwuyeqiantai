@@ -1,0 +1,4 @@
+<cu-custom bgColor="bg-gradual-green" isBack="{{true}}">
+    <view slot="backText">返回</view>
+    <view slot="content">社区失物招领</view>
+</cu-custom>

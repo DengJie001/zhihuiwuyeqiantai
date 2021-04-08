@@ -1,4 +1,49 @@
 <cu-custom bgColor="bg-gradual-pink" isBack="{{true}}">
     <view slot="backText">返回</view>
-    <view slot="content">活动场地申请</view>
+    <view slot="content">活动场地</view>
 </cu-custom>
+<view class="page">
+    <view class="cu-bar bg-white search">
+        <view class="cu-form-group">
+            <picker bindchange="pickerChange" value="{{index}}" range="{{property}}">
+                <view class="picker">
+                    {{index ? property[index] : '选择属性'}}
+                </view>
+            </picker>
+        </view>
+        <view class="search-form round">
+            <text class="cuIcon-search"></text>
+            <input type="text" placeholder="输入关键字进行查询" bindinput="getInputValue" />
+        </view>
+        <view style="margin-left: 20rpx;">
+            <button class="cu-btn round bg-blue button-hover" bindtap="search">搜索</button>
+        </view>
+    </view>
+
+    <!-- 场地信息列表 -->
+    <scroll-view scroll-y="true" scroll-with-animation="true">
+        <block wx:for="{{placeInfos}}" wx:for-index="index" wx:for-item="place">
+            <view class="cu-card article">
+                <view class="cu-item shadow">
+                    <view class="flex margin-top-sm margin-left-xs margin-bottom-sm" data-placeId="{{place.placeId}}" bindtap="toApplyPlace">
+                        <view class="flex-sub text-cut" style="width: 90%;" id="placeId"># {{place.placeId}}</view>
+                        <view class="flex justify-end margin-right-sm">
+                            <view class="cu-tag bg-red" wx:if="{{place.placeStatus == '使用中'}}">{{place.placeStatus}}</view>
+                            <view class="cu-tag bg-green" wx:if="{{place.placeStatus == '未使用'}}">{{place.placeStatus}}</view>
+                            <view class="cu-tag bg-blue" wx:if="{{place.placeStatus == '维护中'}}">{{place.placeStatus}}</view>
+                        </view>
+                    </view>
+                    <view class="content">
+                        <image style="width: 300rpx;" src="{{place.firstPicture}}" bindtap="previewPictures" data-index="{{index}}"></image>
+                        <view class="grid col-1" data-placeId="{{place.placeId}}" bindtap="toApplyPlace">
+                            <view class="margin-top-xs margin-left-xs">管理员：{{place.managerName}}</view>
+                            <view class="margin-top-xs margin-bottom-xs margin-left-xs">价格：{{place.placePrice}}元/天</view>
+                            <view class="margin-bottom-xs margin-left-xs">面积：{{place.placeArea}}㎡</view>
+                        </view>
+                    </view>
+                    <view class="text-cut margin-top-xs" style="margin-left: 16px;">介绍：{{place.placeDescription}}</view>
+                </view>
+            </view>
+        </block>
+    </scroll-view>
+</view>

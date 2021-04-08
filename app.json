@@ -12,7 +12,9 @@
         "pages/repair/repair",
         "pages/complaint/complaint",
         "pages/weather/weather",
-        "pages/houseInfo/houseInfo"
+        "pages/houseInfo/houseInfo",
+        "pages/theLost/theLost",
+        "pages/applyPlace/applyPlace"
     ],
     "window": {
         "backgroundTextStyle": "light",

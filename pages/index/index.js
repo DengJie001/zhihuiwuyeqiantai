@@ -67,6 +67,8 @@ Page({
       case '小区房产':
         url = '../houseInfo/houseInfo'
         break;
+      case '失物招领':
+        url = '../theLost/theLost'
     }
     wx.navigateTo({
       url: url,

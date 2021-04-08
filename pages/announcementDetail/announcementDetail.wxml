@@ -1,2 +1,39 @@
-<!--pages/announcementDetail/announcementDetail.wxml-->
-<text>pages/announcementDetail/announcementDetail.wxml</text>
+<cu-custom bgColor="bg-gradual-green" isBack="{{true}}">
+    <view slot="backText">返回</view>
+    <view slot="content">公告详情</view>
+</cu-custom>
+<view class="page">
+    <view class="text-center margin-top-lg">
+        <text class="text-black text-bold" style="font-size: 40rpx;">{{announcement.title}}</text>
+    </view>
+    <view class="margin-top-sm padding-sm">
+        <text decode="true" space="ensp" user-select="true">{{announcement.content}}</text>
+        <!-- {{announcement.content}} -->
+    </view>
+    <view class="margin-top-sm">
+        <view class="padding-xs margin-right-sm">
+            <view class="text-right">发布人:{{announcement.authorName}}</view>
+        </view>
+        <view class="padding-xs margin-right-sm">
+            <view class="text-right">日期:{{announcement.date}}</view>
+        </view>
+    </view>
+    <view class="flex justify-end margin-top-sm" bindtap="question">
+        <view class="cu-capsule margin-right-sm">
+            <view class="cu-tag bg-red round">有疑问</view>
+        </view>
+    </view>
+</view>
+<view class="cu-modal {{modal=='yes'?'show':''}}">
+    <view class="cu-dialog">
+        <view class="cu-bar bg-white justify-end">
+            <view class="content">提示</view>
+            <view class="action" bindtap="hideModal">
+                <text class="cuIcon-close text-red"></text>
+            </view>
+        </view>
+        <view class="padding-xl">
+            {{tips}}
+        </view>
+    </view>
+</view>

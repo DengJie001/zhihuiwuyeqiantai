@@ -20,9 +20,13 @@
                 </view>
                 <view class="item-title">社区公告</view>
             </view>
-            <!-- 格式占位 -->
-            <view class="item flex-sub padding-xs margin-xs radius bg- ">
+            <view class="item flex-sub padding-xs margin-xs radius bg-blue" bindtap="goto" data-tag="失物招领">
+                <view>
+                    <image src="../../images/失物招领.png" class="item-picture"></image>
+                </view>
+                <view class="item-title">失物招领</view>
             </view>
+            <!-- 格式占位 -->
             <view class="item flex-sub padding-xs margin-xs radius bg- ">
             </view>
         </view>
