@@ -3,5 +3,54 @@
     <view slot="content">投诉建议</view>
 </cu-custom>
 <view class="page">
-    <button bindtap="chooseImage">选择图片</button>
+    <form>
+        <view class="cu-form-group align-start">
+            <view class="title">投诉(建议内容)</view>
+            <textarea maxlength="-1" bindinput="getInputValue" placeholder="请详细描述您的投诉/建议内容,如有必要,可以上传不多于四张照片作为佐证内容" style="height: 200rpx"></textarea>
+        </view>
+        <view class="cu-bar bg-white margin-top">
+            <view class="action">选择图片</view>
+            <view class="action">{{images.length}}/4</view>
+        </view>
+        <view class="cu-form-group">
+            <view class="grid col-4 grid-square flex-sub">
+                <view class="bg-img" wx:for="{{images}}" wx:key="{{index}}" bindtap="previewImages" data-url="{{images[index]}}">
+                    <image src="{{images[index]}}" mode="aspectFill"></image>
+                    <view class="cu-tag bg-red" catchtap="deleteImage" data-index="{{index}}">
+                        <text class="cuIcon-close"></text>
+                    </view>
+                </view>
+                <view class="solids" bindtap="chooseImages" wx:if="{{images.length < 4}}">
+                    <text class="cuIcon-cameraadd"></text>
+                </view>
+            </view>
+        </view>
+        <view class="cu-form-group margin-top">
+            <view class="title">选择类型</view>
+            <picker bindchange="pickerChange" value="{{categoryIndex}}" range="{{category}}">
+                <view class="picker">
+                    {{category[categoryIndex]}}
+                </view>
+            </picker>
+        </view>
+        <view class="flex solid-bottom padding justify-end">
+            <view>
+                <button class="cu-btn round bg-green lg button-hover" bindtap="submit">提交投诉/建议</button>
+            </view>
+        </view>
+    </form>
+</view>
+<!-- 提示框 -->
+<view class="cu-modal {{modal=='yes'?'show':''}}">
+    <view class="cu-dialog">
+        <view class="cu-bar bg-white justify-end">
+            <view class="content">提示</view>
+            <view class="action" bindtap="hideModal">
+                <text class="cuIcon-close text-red"></text>
+            </view>
+        </view>
+        <view class="padding-xl">
+            {{tips}}
+        </view>
+    </view>
 </view>

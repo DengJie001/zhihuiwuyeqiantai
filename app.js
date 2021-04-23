@@ -20,8 +20,24 @@ App({
           method: 'POST',
           header: {'Content-Type': 'application/x-www-form-urlencoded'},
           success: function (res) {
+            console.log(res);
             wx.setStorageSync('openid', res.data.openid);
             if (res.data.openid) {
+              wx.request({
+                url: 'http://localhost:8080/bysj/login/userLogin.do',
+                data: {
+                  userId: res.data.openid
+                },
+                method: 'post',
+                dataType: 'json',
+                header: {'Content-Type': 'application/x-www-form-urlencoded'},
+                success: function (res) {
+                  console.log(res);
+                },
+                fail: function (res) {
+                  console.log(res);
+                }
+              });
             } else {
               wx.redirectTo({
                 url: '../userRegister/userRegister',

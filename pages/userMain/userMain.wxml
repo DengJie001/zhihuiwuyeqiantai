@@ -1,0 +1,70 @@
+<scroll-view scroll-y class="scrollPage">
+    <view class="UCenter-bg">
+        <view class="cu-avatar round xl" style="background-image:url('{{userAvatar}}')" wx:if="{{userAvatar != ''}}">
+            <view class="cu-tag badge cuIcon-{{user.gender == '男' ? 'male' : female}} bg-{{user.gender == '男' ? 'blue' : 'pink'}}"></view>
+        </view>
+        <view wx:else class="cu-avatar xl round bg-white" bindtap="getAvatar">
+            <text class="avatar-text">获取头像</text>
+        </view>
+        <view class="text-xl">
+            <text class="text-df">{{user.userName}}</text>
+        </view>
+        <view class="margin-top-sm">
+            <text>{{user.nationality}}-{{user.province}}-{{user.city}}</text>
+        </view>
+    </view>
+    <view class="padding flex text-center text-grey bg-white shadow-warp">
+        <!-- 实时获取管理员对于用户投诉建议的回复 -->
+        <view class="flex flex-sub flex-direction solid-right" bindtap="goto" data-page="投诉建议">
+            <view class="text-xl text-green">{{unread}}</view>
+            <view class="margin-top-sm">
+                <text class="cuIcon-edit text-green"> 回复</text>
+            </view>
+        </view>
+        <!-- 实时获取该用户当前的未缴费数量 -->
+        <view class="flex flex-sub flex-direction solid-right" bindtap="goto" data-page="缴费">
+            <view class="text-xl text-yellow">{{unPaymentTotal}}</view>
+            <view class="margin-top-sm">
+                <text class="cuIcon-coin text-yellow"></text> 缴费</view>
+        </view>
+    </view>
+    <view class="cu-list menu card-menu margin-top-xl margin-bottom-xl shadow-lg radius">
+        <view class="cu-item arrow">
+            <navigator class="content" url="" hover-class="none">
+                <text class="cuIcon-creativefill text-orange"></text>
+                <text class="text-grey">失物招领记录</text>
+            </navigator>
+        </view>
+        <view class="cu-item arrow">
+            <navigator class="content" url="" hover-class="none">
+                <text class="cuIcon-moneybagfill text-orange"></text>
+                <text class="text-grey">我的缴费记录</text>
+            </navigator>
+        </view>
+        <view class="cu-item arrow">
+            <navigator class="content" url="" hover-class="none">
+                <text class="cuIcon-creativefill text-orange"></text>
+                <text class="text-grey">场地申请记录</text>
+            </navigator>
+        </view>
+        <view class="cu-item arrow">
+            <navigator class="content" url="../myRepairList/myRepairList" hover-class="none">
+                <text class="cuIcon-settingsfill text-orange"></text>
+                <text class="text-grey">物业报修记录</text>
+            </navigator>
+        </view>
+        <view class="cu-item arrow" data-page="投诉建议">
+            <navigator class="content" url="../myComplaintList/myComplaintList" hover-class="none">
+                <text class="cuIcon-commentfill text-orange"></text>
+                <text class="text-grey">我的投诉建议</text>
+            </navigator>
+        </view>
+        <view class="cu-item arrow">
+            <navigator class="content" url="../payStep/payStep" hover-class="none">
+                <text class="cuIcon-peoplelist text-orange"></text>
+                <text class="text-grey">个人信息</text>
+            </navigator>
+        </view>
+    </view>
+    <view class="cu-tabbar-height"></view>
+</scroll-view>

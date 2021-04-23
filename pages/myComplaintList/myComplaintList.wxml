@@ -1,0 +1,56 @@
+<cu-custom bgColor="bg-gradual-blue" isBack="{{true}}">
+    <view slot="backText">返回</view>
+    <view slot="content">投诉建议历史记录</view>
+</cu-custom>
+<view class="page">
+    <scroll-view scroll-y="true">
+        <block wx:for="{{complaintList}}" wx:for-index="index" wx:for-item="item">
+            <view class="flex justify-center" data-complaintid="{{item.id}}" data-index="{{index}}" bindtap="toDetail">
+                <view class="shadow bg-white radius margin-sm" style="width: 90%;">
+                    <view class="flex margin-top-xs margin-left-xs">
+                        <view class="flex-sub text-cut" style="width: 90%;">内容：{{item.messageContent}}</view>
+                        <view class="flex justify-end">
+                            <view class="margin-right-sm cu-tag bg-{{item.category == '投诉' ? 'red' : 'green'}}">{{item.category}}</view>
+                        </view>
+                    </view>
+                    <view class="text-cut margin-top-xs margin-left-xs" style="width: 90%;" hidden="{{item.managerResponse == ''}}">管理员回复：{{item.managerResponse}}</view>
+                    <view class="margin-top-xs margin-bottom-xs margin-left-xs">提交日期：{{item.complaintDate}}</view>
+                    <view class="margin-top-xs margin-bottom-xs margin-left-xs" hidden="{{item.responseDate == ''}}">回复日期: {{item.responseDate}}</view>
+                    <view class="margin-top-xs margin-bottom-xs margin-left-xs">
+                        处理状态:<view class="cu-tag radiu sm bg-{{item.status == '未处理' ? 'red' : 'green'}}">{{item.status}}</view>
+                        <view class="flex justify-end margin-right-sm">
+                            <view class="cu-item" catchtap="deleteThis" data-id="{{item.id}}">
+                                <text class="cuIcon-deletefill lg text-red" style="font-size: 36rpx;"></text>
+                            </view>
+                        </view>
+                    </view>
+                </view>
+            </view>
+        </block>
+    </scroll-view>
+    <block wx:if="{{complaintList.length == 0}}">
+        <view>
+            
+        </view>
+    </block>
+</view>
+<!-- 提示框 -->
+<view class="cu-modal {{showModal=='yes'?'show':''}}">
+  <view class="cu-dialog">
+    <view class="cu-bar bg-white justify-end">
+      <view class="content">Modal标题</view>
+      <view class="action" bindtap="hideModal">
+        <text class="cuIcon-close text-red"></text>
+      </view>
+    </view>
+    <view class="padding-xl">
+      是否确认删除该条记录
+    </view>
+    <view class="cu-bar bg-white justify-end">
+      <view class="action">
+        <button class="cu-btn line-green text-green" bindtap="cancelAndHide">取消</button>
+        <button class="cu-btn bg-green margin-left" bindtap="comfirmAndHide">确定</button>
+      </view>
+    </view>
+  </view>
+</view>

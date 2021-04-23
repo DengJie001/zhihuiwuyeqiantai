@@ -1,1 +1,5 @@
-/* pages/repair/repair.wxss */
+#workerId {
+    font-size: large;
+    font-style: italic;
+    color: #ed1c24;
+}

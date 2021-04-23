@@ -1,47 +1,70 @@
 <cu-custom bgColor="bg-gradual-pink" isBack="{{true}}">
     <view slot="backText">返回</view>
-    <view slot="content">申请活动场地-#{{placeInfo.placeId}}</view>
+    <view slot="content">维修下单</view>
 </cu-custom>
 <view class="page">
-    <swiper class="screen-swiper {{DotStyle?'square-dot':'round-dot'}}" indicator-dots="true" circular="true"
-        autoplay="true" interval="5000" duration="500" bindtap="previewPicture">
-        <swiper-item wx:for="{{placeInfo.placePicture}}" wx:for-item="item" wx:for-index="index">
-            <image src="{{item}}" mode="aspectFill"></image>
-        </swiper-item>
-    </swiper>
+    <view class="flex justify-center margin-top">
+        <view class="cu-avatar xl round" style="background-image:url('{{worker.workerAvatar}}')">
+        </view>
+    </view>
+
     <view class="flex justify-center margin-top-sm">
         <view class="bg-white padding shadow" style="width: 95%;border-radius: 10rpx;">
             <view class="grid col-1">
-                <view class="flex align-center">
+                <view class="flex align-between">
                     <view class="flex-sub" style="color: orange;font-size: large;">
-                        <text style="color: orange; font-size: small;">￥</text>{{placeInfo.placePrice}}
+                        <text style="color: orange; font-size: small;">￥</text>{{worker.cost}}元/次
                     </view>
                     <view class="flex-sub" style="margin-left: -400rpx;">
                         <view class="cu-capsule round">
-                            <view class="cu-tag bg-orange">{{placeInfo.placeStatus}}</view>
+                            <view class="cu-tag bg-orange" style="margin-left: 40rpx;">{{worker.score}}分</view>
                         </view>
                     </view>
                 </view>
                 <view class="margin-top-sm desc">
-                    <view class="content">{{placeInfo.placeDescription}}</view>
+                    <view class="content">{{worker.workerDescription}}</view>
                 </view>
-                <view class="margin-top-sm">管理员:{{placeInfo.managerName}}</view>
-                <view class="margin-top-sm">联系方式:{{placeInfo.managerTel}}</view>
+                <view class="margin-top-sm">姓名:{{worker.workerName}}</view>
+                <view class="margin-top-sm">联系方式:{{worker.workerTel}}</view>
             </view>
         </view>
     </view>
+
     <view class="flex justify-end">
         <view class="margin">
-            <button class="cu-btn round lg button-hover bg-green" bindtap="apply">申请使用</button>
+            <button class="cu-btn round lg button-hover bg-green" bindtap="addOneOrder">下单维修</button>
         </view>
     </view>
+
+    <scroll-view scroll-y="true">
+        <block wx:for="{{evaluationList}}" wx:for-index="index" wx:for-item="evaluation">
+            <view class="cu-list menu-avatar comment solids-top">
+                <view class="cu-item">
+                    <view wx:if="{{evaluation.userGender == '男'}}" class="cu-avatar round" style="background-image:url('../../images/other/boy.png');"></view>
+                    <view wx:else class="cu-avatar round" style="background-image:url('../../images/other/girl.png')"></view>
+                    <view class="content">
+                        <view class="flex justify-between">
+                            <view style="font-size: 12px;">{{evaluation.userName}}</view>
+                            <view style="font-size: 12px">{{evaluation.evaluationDate}}</view>
+                        </view>
+                        <view>
+                            <block wx:for="{{evaluation.stars}}">
+                                <text class="cuIcon-favorfill text-red" style="font-size: 12px;"></text>
+                            </block>
+                        </view>
+                        <view class="text-black text-content text-df">{{evaluation.evaluationContent}}</view>
+                    </view>
+                </view>
+            </view>
+        </block>
+    </scroll-view>
 </view>
 <!-- 提示 -->
-<view class="cu-modal {{modal=='yes'?'show':''}}">
+<view class="cu-modal {{showTips=='yes'?'show':''}}">
     <view class="cu-dialog">
         <view class="cu-bar bg-white justify-end">
             <view class="content">提示</view>
-            <view class="action" bindtap="hideModal">
+            <view class="action" bindtap="hideModal" data-name="tips">
                 <text class="cuIcon-close text-red"></text>
             </view>
         </view>
@@ -51,44 +74,32 @@
     </view>
 </view>
 
-<!-- 场地申请表 -->
-<view class="cu-modal {{showApplicationForm=='yes'?'show':''}}">
+<!-- 填写维修物品的描述 -->
+<view class="cu-modal {{show=='yes'?'show':''}}">
     <view class="cu-dialog">
         <view class="cu-bar bg-white justify-end">
-            <view class="content">场地申请</view>
-            <view class="action" bindtap="hideModal">
+            <view class="content">物业维修</view>
+            <view class="action" bindtap="hideModal" data-name="description">
                 <text class="cuIcon-close text-red"></text>
             </view>
         </view>
         <view class="padding-xl">
             <form>
                 <view class="cu-form-group align-start">
-                    <view class="title">申请原因</view>
-                    <textarea placeholder="请简要说明申请场地的原因!" maxlength="-1" bindinput="getTextAreaValue"></textarea>
-                </view>
-                <view class="cu-form-group">
-                    <view class="title">开始时间</view>
-                    <picker bindchange="startDateChange" end="2025-01-01" start="2021-01-01" value="{{startDate}}" mode="date">
-                        <view class="picker">{{startDate}}</view>
-                    </picker>
-                </view>
-                <view class="cu-form-group">
-                    <view class="title">结束时间</view>
-                    <picker bindchange="endDateChange" end="2025-01-01" start="2021-01-01" value="{{endDate}}" mode="date">
-                        <view class="picker">{{endDate}}</view>
-                    </picker>
+                    <view class="title">维修描述</view>
+                    <textarea placeholder="请简要说明物业维修的要求!" maxlength="-1" bindinput="getTextAreaValue"></textarea>
                 </view>
                 <view class="cu-form-group align-start">
                     <view class="title">费用:</view>
                     <view class="flex-sub text-right">
                         <view class="solid-bottom text-xxl padding">
-                            <text class="text-price text-orange">{{cost}}</text>
+                            <text class="text-price text-orange">{{worker.cost}}</text>
                         </view>
                     </view>
                 </view>
                 <view class="flex justify-center margin-top-sm">
                     <view class="flex">
-                        <button class="cu-btn round lg button-hover bg-gradual-pink" bindtap="submitApplication">提交</button>
+                        <button class="cu-btn round lg button-hover bg-gradual-pink" bindtap="submit">提交</button>
                     </view>
                 </view>
             </form>
@@ -111,7 +122,7 @@
                     <image style="height: 150px; width: 150px" src="{{payCode}}" bindtap="previewQrCode"></image>
                 </view>
                 <view class="padding">
-                    点击左方二维码,长按保存,打开微信扫一扫,进行扫码支付,<text style="color: red;">1天内有效,支付后</text>,管理员优先审核已付款!
+                    点击左方二维码,长按保存,打开微信扫一扫,进行扫码支付,<text style="color: red;">1天内有效,支付后</text>,维修人员将上门服务!
                 </view>
             </view>
         </view>

@@ -1,0 +1,119 @@
+<cu-custom bgColor="bg-gradual-pink" isBack="{{true}}">
+    <view slot="backText">返回</view>
+    <view slot="content">物业维修记录</view>
+</cu-custom>
+<view class="page">
+    <scroll-view scroll-y="true">
+        <block wx:for="{{repairList}}" wx:for-item="repair" wx:for-index="index">
+            <view class="flex justify-center align-center">
+                <view class="shadow bg-white radius margin-sm" style="width: 95%;">
+                    <view class="flex margin-top-xs margin-left-xs">
+                        <view class="flex-sub text-cut" style="width: 90%;">订单编号：{{repair.repairId}}</view>
+                    </view>
+                    <view class="margin-top-xs margin-bottom-xs margin-left-xs">提交日期：{{repair.orderDate}}</view>
+                    <view class="margin-top-xs margin-bottom-xs margin-left-xs">
+                        处理状态：<view class="cu-tag radius sm bg-{{repair.orderStatus == '未完成' ? 'red' : 'green'}}">{{repair.orderStatus}}</view>
+                    </view>
+                    <view class="margin-top-xs margin-bottom-xs margin-left-xs">
+                        支付状态：<view class="cu-tag radius sm bg-{{repair.payStatus == '未支付' ? 'red' : 'green'}}">{{repair.payStatus}}</view>
+                    </view>
+                    <view class="margin-top-xs margin-bottom-xs margin-left-xs">维修人员编号：{{repair.workerId}}</view>
+                    <view class="margin-top-xs margin-bottom-xs margin-left-xs">维修人员姓名：{{repair.workerName}}</view>
+                    <view class="margin-top-xs margin-bottom-xs margin-left-xs">联系方式：{{repair.workerTel}}</view>
+                    <view class="flex justify-between margin-top-xs margin-bottom-xs margin-left-xs text-cut">
+                        <view class="text-cut">维修要求：{{repair.repairDescription}}</view>
+                        <view class="cu-tag radius bg-green margin-right-sm" data-index="{{index}}" catchtap="showDescription">显示全部</view>
+                    </view>
+                    <view class="flex justify-end">
+                        <view hidden="{{repair.payStatus == '已支付'}}" class="cu-tag radius bg-green margin-bottom-sm margin-right-xs" catchtap="pay" data-index="{{index}}">点我支付</view>
+                        <view hidden="{{repair.orderStatus == '已完成' && repair.payStatus == '已支付'}}" class="cu-tag radius bg-green margin-left-sm margin-bottom-sm margin-right-xs" catchtap="evaluate" data-index="{{index}}">确认完成</view>
+                        <view class="cu-tag radius bg-red margin-left-sm margin-bottom-sm margin-right-sm" catchtap="delete" data-index="{{index}}">{{repair.orderStatus == '已完成' ? '删除' : '取消'}}</view>
+                    </view>
+                </view>
+            </view>
+        </block>
+    </scroll-view>
+</view>
+<view class="grid col-1" hidden="{{repairList.length != 0}}">
+    <view class="flex justify-center align-center" style="margin-top: 30%;">
+        <image src="../../images/other/没有记录.png" style="height: 200px; width: 200px;"></image>
+    </view>
+    <view class="text-center margin-top-sm text-grey">暂时没有物业报修记录哦~</view>
+</view>
+
+<!-- 显示完整的维修要求 -->
+<view class="cu-modal {{showDescription=='yes'?'show':''}}">
+  <view class="cu-dialog">
+    <view class="cu-bar bg-white justify-end">
+      <view class="content">维修要求</view>
+      <view class="action" bindtap="hideModal">
+        <text class="cuIcon-close text-red"></text>
+      </view>
+    </view>
+    <view class="padding-xl">
+        {{description}}
+    </view>
+  </view>
+</view>
+
+<!-- 支付码展示 -->
+<view class="cu-modal {{showQrCode=='yes'?'show':''}}">
+    <view class="cu-dialog">
+        <view class="cu-bar bg-white justify-end">
+            <view class="content">扫码支付</view>
+            <view class="action" bindtap="hideModal" data-name="QrCode">
+                <text class="cuIcon-close text-red"></text>
+            </view>
+        </view>
+        <view class="padding-xl">
+            <view class="flex justify-center">
+                <view class="padding">
+                    <image style="height: 150px; width: 150px" src="{{payCode}}" bindtap="previewQrCode"></image>
+                </view>
+                <view class="padding">
+                    点击左方二维码,长按保存,打开微信扫一扫,进行扫码支付,<text style="color: red;">5天内有效,支付后</text>,维修人员将上门服务!
+                </view>
+            </view>
+        </view>
+        <view class="cu-bar bg-white justify-end">
+            <view class="action">
+                <button class="cu-btn ling-green text-green margin-right" bindtap="getQrCode">重新获取</button>
+                <button class="cu-btn line-green text-green" bindtap="toPayStep">教我操作</button>
+                <button class="cu-btn bg-green margin-left" bindtap="hideModal" data-name="QrCode">我明白了</button>
+            </view>
+        </view>
+    </view>
+</view>
+
+<!-- 评价区域 -->
+<view class="cu-modal {{showEvaluate=='yes'?'show':''}}">
+  <view class="cu-dialog">
+    <view class="cu-bar bg-white justify-end">
+      <view class="content">服务评价</view>
+      <view class="action" bindtap="hideModal">
+        <text class="cuIcon-close text-red"></text>
+      </view>
+    </view>
+    <view class="padding-xl">
+        <view class="grid col-5">
+            <view bindtap="selectScore" data-selected="1" class="padding solid bg-{{isSelected == 1 ? 'red' : 'green'}}">极差</view>
+            <view bindtap="selectScore" data-selected="2" class="padding solid bg-{{isSelected == 2 ? 'red' : 'green'}}">20</view>
+            <view bindtap="selectScore" data-selected="3" class="padding solid bg-{{isSelected == 3 ? 'red' : 'green'}}">30</view>
+            <view bindtap="selectScore" data-selected="4" class="padding solid bg-{{isSelected == 4 ? 'red' : 'green'}}">40</view>
+            <view bindtap="selectScore" data-selected="5" class="padding solid bg-{{isSelected == 5 ? 'red' : 'green'}}">50</view>
+            <view bindtap="selectScore" data-selected="6" class="padding solid bg-{{isSelected == 6 ? 'red' : 'green'}} margin-top-sm">60</view>
+            <view bindtap="selectScore" data-selected="7" class="padding solid bg-{{isSelected == 7 ? 'red' : 'green'}} margin-top-sm">70</view>
+            <view bindtap="selectScore" data-selected="8" class="padding solid bg-{{isSelected == 8 ? 'red' : 'green'}} margin-top-sm">80</view>
+            <view bindtap="selectScore" data-selected="9" class="padding solid bg-{{isSelected == 9 ? 'red' : 'green'}} margin-top-sm">90</view>
+            <view bindtap="selectScore" data-selected="10" class="padding solid bg-{{isSelected == 10 ? 'red' : 'green'}} margin-top-sm">极好</view>
+        </view>
+        <view class="cu-form-group align-start margin-top-sm">
+            <view class="title">评价</view>
+            <textarea maxlength="-1" bindinput="getInputValue" placeholder="请对本次服务做出评价"></textarea>
+        </view>
+        <view class="flex justify-center margin-top-sm">
+            <button class="cu-btn round bg-green button-hover" bindtap="submit">提交</button>
+        </view>
+    </view>
+  </view>
+</view>

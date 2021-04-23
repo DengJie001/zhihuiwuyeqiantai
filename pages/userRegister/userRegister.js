@@ -17,6 +17,21 @@ Page({
         verifyCodeAnimation: false
     },
 
+    syncGetUserProfile: function () {
+        var that = this;
+        return new Promise(function (resolve, reject) {
+            wx.getUserProfile({
+                desc: '用于完善用户资料',
+                success: function (res) {
+                    resolve(res);
+                },
+                fail: function (errorRes) {
+                    reject(errorRes);
+                }
+            });
+        });
+    },
+
     /**
      * @author DengJie
      * @param {*} options 
@@ -188,11 +203,8 @@ Page({
                 verifyCodeAnimation: false
             });
         }
-        await wx.getUserProfile({
-            desc: '授权使用你的头像,性别,地区'
-        }).then( res => {
-            console.log(res);
-        });
+        var userProfile = await that.syncGetUserProfile();
+        console.log(userProfile);
         console.log('后续操作');
         // return;
         // 如果含有格式不正确的字段 阻止提交

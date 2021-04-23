@@ -2,3 +2,52 @@
     <view slot="backText">返回</view>
     <view slot="content">社区失物招领</view>
 </cu-custom>
+<scroll-view scroll-x="true" class="bg-white nav">
+    <view class="flex text-center">
+        <view class="cu-item flex-sub {{index==tabCur?'text-green cur':''}}" wx:for="{{tabName.length}}" wx:key bindtap="tabSelect" data-id="{{index}}">
+            {{tabName[index]}}
+        </view>
+    </view>
+</scroll-view>
+<!-- 失物招领列表 -->
+<scroll-view scroll-y="true" hidden="{{isListHidden}}">
+    dsadasdasczgscbjdlfhgjsdfgsdhjfdsasdbcdjcbsdaljfsdbfdjsk
+</scroll-view>
+<view hidden="{{isIssueHidden}}" style="margin-top: 10rpx;">
+    <form>
+        <view class="cu-form-group align-start">
+            <view class="title">详细描述</view>
+            <textarea bindinput="getInputValue" maxlength="-1" placeholder="请详细描述您捡到/丢失的物品以及位置" style="height: 200rpx;"></textarea>
+        </view>
+        <view class="cu-bar bg-white margin-top">
+            <view class="action">选择图片</view>
+            <view class="action">{{images.length}}/4</view>
+        </view>
+        <view class="cu-form-group">
+            <view class="grid col-4 grid-square flex-sub">
+                <view class="bg-img" wx:for="{{images}}" wx:key="{{index}}" bindtap="previewImage" data-url="{{images[index]}}">
+                    <image src="{{images[index]}}" mode="aspectFill"></image>
+                    <view class="cu-tag bg-red" catchtap="deleteImage" data-index="{{index}}">
+                        <text class="cuIcon-close"></text>
+                    </view>
+                </view>
+                <view class="solids" bindtap="chooseImages" wx:if="{{images.length < 4}}">
+                    <text class="cuIcon-cameraadd"></text>
+                </view>
+            </view>
+        </view>
+        <view class="cu-form-group margin-top">
+            <view class="title">联系方式</view>
+            <input type="text" bindinput="getInputValue" placeholder="请输入联系方式" data-id="phoneNumber" />
+            <view class="cu-capsule radius">
+                <view class="cu-tag bg-green">+86</view>
+                <view class="cu-tag line-green">中国大陆</view>
+            </view>
+        </view>
+        <view class="cu-form-group margin-top">
+            <view class="title">验证码</view>
+            <input type="text" placeholder="请输入验证码" />
+            <button class="cu-btn bg-green shadow" role="button" disabled="{{disabled}}" bindtap="sendVerifyCode">{{verifyBtnText}}</button>
+        </view>
+    </form>
+</view>

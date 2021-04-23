@@ -2,3 +2,7 @@
     <view slot="backText">返回</view>
     <view slot="content">缴费中心</view>
 </cu-custom>
+<view class="page">
+    <button bindtap="pay">支付</button>
+    <image src="{{payUrl}}" bindtap="previewQRCode"></image>
+</view>
