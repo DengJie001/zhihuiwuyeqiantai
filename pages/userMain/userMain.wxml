@@ -30,19 +30,19 @@
     </view>
     <view class="cu-list menu card-menu margin-top-xl margin-bottom-xl shadow-lg radius">
         <view class="cu-item arrow">
-            <navigator class="content" url="" hover-class="none">
+            <navigator class="content" url="../myLostItems/myLostItems" hover-class="none">
                 <text class="cuIcon-creativefill text-orange"></text>
                 <text class="text-grey">失物招领记录</text>
             </navigator>
         </view>
         <view class="cu-item arrow">
-            <navigator class="content" url="" hover-class="none">
+            <navigator class="content" url="../billList/billList" hover-class="none">
                 <text class="cuIcon-moneybagfill text-orange"></text>
                 <text class="text-grey">我的缴费记录</text>
             </navigator>
         </view>
         <view class="cu-item arrow">
-            <navigator class="content" url="" hover-class="none">
+            <navigator class="content" url="../myApplicationList/myApplicationList" hover-class="none">
                 <text class="cuIcon-creativefill text-orange"></text>
                 <text class="text-grey">场地申请记录</text>
             </navigator>
@@ -59,12 +59,5 @@
                 <text class="text-grey">我的投诉建议</text>
             </navigator>
         </view>
-        <view class="cu-item arrow">
-            <navigator class="content" url="../payStep/payStep" hover-class="none">
-                <text class="cuIcon-peoplelist text-orange"></text>
-                <text class="text-grey">个人信息</text>
-            </navigator>
-        </view>
     </view>
-    <view class="cu-tabbar-height"></view>
 </scroll-view>

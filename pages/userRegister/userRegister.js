@@ -1,4 +1,4 @@
-var baseUrl = 'http://localhost:8080/bysj/';
+var baseUrl = 'https://codemata.club/bysj/';
 const app = getApp();
 Page({
 
@@ -14,7 +14,10 @@ Page({
         currentTime: 91,
         nameAnimation: false,
         phoneNumberAnimation: false,
-        verifyCodeAnimation: false
+        verifyCodeAnimation: false,
+        areaIndex: -1,
+        unitIndex: -1,
+        roomIndex: -1
     },
 
     syncGetUserProfile: function () {
@@ -29,6 +32,67 @@ Page({
                     reject(errorRes);
                 }
             });
+        });
+    },
+
+    /**
+     * @author DengJie
+     * @param {*} e 
+     * @date 2021-04-05
+     * @description 监听区域号选择
+     */
+    areaChange: function (e) {
+        var that = this;
+        if (e.detail.value != -1) {
+            var unitList = [];
+            for (let i = 0; i < that.data.address.length; ++i) {
+                if (that.data.address[i].areaId == that.data.areas[e.detail.value]) {
+                    if (unitList.indexOf(that.data.address[i].unitId) == -1) {
+                        unitList.push(that.data.address[i].unitId);
+                    }
+                }
+            }
+            that.setData({
+                units: unitList,
+                areaIndex: e.detail.value
+            });
+        }
+    },
+
+    /**
+     * @author DengJie
+     * @param {*} e 
+     * @date 2021-05-05
+     * @description 监听单元号选择
+     */
+    unitChange: function (e) {
+        var that = this;
+        if (e.detail.value != -1) {
+            var roomList = [];
+            for (let i = 0; i < that.data.address.length; ++i) {
+                if (that.data.address[i].areaId == that.data.areas[that.data.areaIndex] && that.data.address[i].unitId == that.data.units[e.detail.value]) {
+                    if (roomList.indexOf(that.data.address[i].roomId) == -1) {
+                        roomList.push(that.data.address[i].roomId);
+                    }
+                }
+            }
+            that.setData({
+                unitIndex: e.detail.value,
+                rooms: roomList
+            });
+        }
+    },
+
+    /**
+     * @author DengJie
+     * @param {*} e 
+     * @date 2021-05-05
+     * @description 监听门牌号选择
+     */
+    roomChange: function (e) {
+        var that = this;
+        that.setData({
+            roomIndex: e.detail.value
         });
     },
 
@@ -72,7 +136,8 @@ Page({
         wx.request({
           url: baseUrl + 'SMS/sendCode.do',
           data: {
-              phoneNumber: that.data.phoneNumber
+              phoneNumber: that.data.phoneNumber,
+              userId: wx.getStorageSync('openid')
           },
           header: {'Content-Type': 'application/x-www-form-urlencoded'},
           method: 'POST',
@@ -203,10 +268,11 @@ Page({
                 verifyCodeAnimation: false
             });
         }
+
+        if (that.data.areaIndex == -1 || that.data.unitIndex == -1 || that.data.roomIndex == -1) {
+            canSubmit = false;
+        }
         var userProfile = await that.syncGetUserProfile();
-        console.log(userProfile);
-        console.log('后续操作');
-        // return;
         // 如果含有格式不正确的字段 阻止提交
         if (!canSubmit) {
             wx.showToast({
@@ -219,7 +285,17 @@ Page({
         wx.request({
           url: baseUrl + 'user/register.do',
           data: {
-              verifyCode: that.data.verifyCode
+              verifyCode: that.data.verifyCode,
+              userId: wx.getStorageSync('openid'),
+              userTel: that.data.phoneNumber,
+              userName: that.data.name,
+              gender: userProfile.userInfo.gender == 1 ? '男' : '女',
+              nationality: userProfile.userInfo.country,
+              province: userProfile.userInfo.province,
+              city: userProfile.userInfo.city,
+              areaId: that.data.areas[that.data.areaIndex],
+              unitId: that.data.units[that.data.unitIndex],
+              roomId: that.data.rooms[that.data.roomIndex]
           },
           header: {"Content-Type": "application/x-www-form-urlencoded", 'cookie': 'JSESSIONID=' + app.globalData.header.Cookie},
           method: 'POST',
@@ -232,7 +308,7 @@ Page({
                     duration: 2000,
                     mask: true
                   });
-                  wx.redirectTo({
+                  wx.switchTab({
                     url: '../index/index',
                   });
               } else {
@@ -284,7 +360,38 @@ Page({
      * 生命周期函数--监听页面加载
      */
     onLoad: function (options) {
-
+        var that = this;
+        wx.request({
+          url: baseUrl + 'HouseInfo/userGetAllHouseInfos.do',
+          data: {
+              userId: wx.getStorageSync('openid')
+          },
+          method: 'POST',
+          dataType: 'json',
+          header: {'Content-Type': 'application/x-www-form-urlencoded', 'cookie': 'JSESSIONID=' + app.globalData.header.Cookie},
+          success: function (res) {
+              if (res.data.status == 'success') {
+                  var areaList = [];
+                  for (let i = 0; i < res.data.info.length; ++i) {
+                      if (areaList.indexOf(res.data.info[i].areaId) == -1) {
+                          areaList.push(res.data.info[i].areaId);
+                      }
+                  }
+                  that.setData({
+                      areas: areaList,
+                      address: res.data.info
+                  });
+              }
+          },
+          fail: function (res) {
+              wx.showToast({
+                title: '拉取房产数据失败',
+                icon: 'none',
+                duration: 3000,
+                mask: true
+              });
+          }
+        });
     },
 
     /**

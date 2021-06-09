@@ -1,5 +1,5 @@
 // app.js
-var baseUrl = 'http://localhost:8080/bysj/user/'
+var baseUrl = 'https://codemata.club/bysj/user/'
 App({
   onLaunch() {
     // 展示本地存储能力
@@ -11,11 +11,13 @@ App({
     wx.login({
       success: res => {
         // 发送 res.code 到后台换取 openId, sessionKey, unionId
+        wx.showLoading({
+          title: '登录中……',
+        })
         wx.request({
           url: baseUrl + 'getUserOpenid.do',
           data: {
             code: res.code
-            // code: '1111'
           },
           method: 'POST',
           header: {'Content-Type': 'application/x-www-form-urlencoded'},
@@ -24,7 +26,7 @@ App({
             wx.setStorageSync('openid', res.data.openid);
             if (res.data.openid) {
               wx.request({
-                url: 'http://localhost:8080/bysj/login/userLogin.do',
+                url: 'https://codemata.club/bysj/login/userLogin.do',
                 data: {
                   userId: res.data.openid
                 },
@@ -33,14 +35,21 @@ App({
                 header: {'Content-Type': 'application/x-www-form-urlencoded'},
                 success: function (res) {
                   console.log(res);
+                  if (res.data.msgId == 1) {
+                    wx.hideLoading({});
+                    wx.switchTab({
+                      url: '../index/index',
+                    });
+                  } else {
+                    wx.hideLoading({});
+                    wx.redirectTo({
+                      url: '../userRegister/userRegister',
+                    });
+                  }
                 },
                 fail: function (res) {
                   console.log(res);
                 }
-              });
-            } else {
-              wx.redirectTo({
-                url: '../userRegister/userRegister',
               });
             }
           },

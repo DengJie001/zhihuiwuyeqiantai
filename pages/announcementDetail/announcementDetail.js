@@ -41,7 +41,6 @@ Page({
         var that = this;
         var announcement = wx.getStorageSync(options.announcementId);
         announcement.content = announcement.content.replace('<br/>', '\n');
-        console.log(announcement.content);
         that.setData({
             announcement: announcement
         });

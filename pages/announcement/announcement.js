@@ -1,4 +1,5 @@
-const baseUrl = 'http://localhost:8080/bysj/announcement/';  // 请求前缀
+const baseUrl = 'https://codemata.club/bysj/announcement/';  // 请求前缀
+const app = getApp();
 Page({
 
     /**
@@ -136,7 +137,8 @@ Page({
               page: 1,
               limit: that.data.limit,
               property: that.data.property[that.data.index],
-              value: that.data.inputValue
+              value: that.data.inputValue,
+              userId: wx.getStorageSync('openid')
           },
           header: {'Content-Type': 'application/x-www-form-urlencoded'},
           dataType: 'json',
@@ -199,7 +201,9 @@ Page({
         // 查询置顶公告
         wx.request({
           url: baseUrl + 'getTopAnnouncement.do',
-          data: {},
+          data: {
+              userId: wx.getStorageSync('openid')
+          },
           header: {'Content-Type': 'application/x-www-form-urlencoded'},
           method: 'POST',
           dataType: 'json',
@@ -229,7 +233,8 @@ Page({
           url: baseUrl + 'getAnnouncements.do',
           data: {
               page: that.data.page,
-              limit: that.data.limit
+              limit: that.data.limit,
+              userId: wx.getStorageSync('openid')
           },
           header: {'Content-Type': 'application/x-www-form-urlencoded'},
           method: 'POST',
@@ -315,7 +320,8 @@ Page({
               page: that.data.page,
               limit: that.data.limit,
               property: that.data.property[that.data.index],
-              value: that.data.inputValue
+              value: that.data.inputValue,
+              userId: wx.getStorageSync('openid')
           },
           header: {'Content-Type': 'application/x-www-form-urlencoded'},
           method: 'POST',

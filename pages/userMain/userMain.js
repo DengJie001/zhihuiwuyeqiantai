@@ -1,4 +1,4 @@
-const baseUrl = 'http://localhost:8080/bysj/';
+const baseUrl = 'https://codemata.club/bysj/';
 
 Page({
 
@@ -6,7 +6,7 @@ Page({
      * 页面的初始数据
      */
     data: {
-        unPaymentTotal: 777,
+        unPaymentTotal: 0,
         unread: 0,
         user: {},
         userAvatar: ''
@@ -107,7 +107,6 @@ Page({
               mask: true
             });
         }
-        console.log(userId);
         var res = await that.useSync(
             baseUrl + 'complaint/getUserUnreadComplaintReply.do',
             {
@@ -120,8 +119,18 @@ Page({
                 userId: userId
             }
         );
+        var bills = await that.useSync(
+            baseUrl + 'bill/userGetUnpaidBills.do',
+            {
+                userId: wx.getStorageSync('openid'),
+                areaId: user.data.user.areaId,
+                unitId: user.data.user.unitId,
+                roomId: user.data.user.roomId
+            }
+        );
         that.setData({
-            unread: res.data.msgId
+            unread: res.data.msgId,
+            unPaymentTotal: bills.data.unpaid
         });
         if (user.data.user == 'error') {
             wx.showToast({

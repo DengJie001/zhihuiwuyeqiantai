@@ -1,4 +1,4 @@
-const baseUrl = 'http://localhost:8080/bysj/';
+const baseUrl = 'https://codemata.club/bysj/';
 const md5=require('../../utils/md5.js');
 
 Page({
@@ -140,12 +140,11 @@ Page({
         var orderRes = await that.useSync(
             baseUrl + 'PropertyRepair/addOrder.do',
             {
-                userId: that.data.userId,
+                userId: wx.getStorageSync('openid'),
                 workerId: that.data.worker.workerId,
                 repairDescription: that.data.repairDescription
             }
         );
-        console.log(orderRes);
         if (orderRes.data.status == 'error') {
             that.setData({
                 show: 'no'
@@ -198,11 +197,10 @@ Page({
                 baseUrl + 'QrCode/addQrCode.do',
                 {
                     codeId: that.data.order_id,
-                    qrCode: qrCode.data.info.qr
+                    qrCode: qrCode.data.info.qr,
+                    userId: wx.getStorageSync('openid')
                 }
             );
-            console.log('qrRes:');
-            console.log(qrRes);
         } else {
             that.setData({
                 show: 'no'
@@ -229,6 +227,7 @@ Page({
         wx.request({
           url: baseUrl + 'RepairEvaluation/getRepairEvaluations.do',
           data: {
+            userId: wx.getStorageSync('openid'),
               page: that.data.page,
               limit: that.data.limit,
               workerId: options.workerId
@@ -313,7 +312,8 @@ Page({
           data: {
               page: that.data.page + 1,
               limit: that.data.limit,
-              wrokerId: that.data.workerId
+              wrokerId: that.data.workerId,
+              userId: wx.getStorageSync('openid')
           },
           method: 'POST',
           dataType: 'json',

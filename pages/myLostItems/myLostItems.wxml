@@ -1,0 +1,44 @@
+<cu-custom bgColor="bg-gradual-pink" isBack="{{true}}">
+    <view slot="backText">返回</view>
+    <view slot="content">我的失物招领记录</view>
+</cu-custom>
+<view class="page">
+    <view class="cu-list">
+        <block wx:for="{{lostItems}}" wx:for-index="index" wx:for-item="item">
+            <view class="cu-item flex {{modalName == 'move-box-' + index ? 'move-cur' : ''}}" bindtouchstart="listTouchStart"bindtouchmove="listTouchMove" bindtouchend="listTouchEnd" data-target="move-box-{{index}}">
+                <view class="flex justify-center margin-top-sm" hidden="{{item.hidden}}" data-index="{{index}}">
+                <view class="grid col-1 bg-white" style="border-radius: 10rpx; width: 95%;">
+                    <view class="flex justify-between align-center solid-bottom">
+                        <view class="padding text-xl text-bold">{{item.itemCategory}}</view>
+                        <view class="cu-tag line-{{item.itemStatus == '已解决' ? 'green' : 'red'}} margin-right-sm">{{item.itemStatus}}</view>
+                    </view>
+                    <view class="flex justify-between align-center">
+                        <view class="flex margin-top-xs align-center">
+                            <view class="cu-avatar round margin-xs" style="background-image:url('../../images/other/boy.png')"></view>
+                            <view class="margin-left-sm grid col-1 text-xs">
+                                <view>{{item.userName}}</view>
+                                <view>{{item.userTel}}</view>
+                            </view>
+                        </view>
+                        <view class="text-xs margin-right-xs">{{item.itemDate}}</view>
+                    </view>
+                    <view class="padding-xs">{{item.itemDescription}}</view>
+                        <view class="grid col-4 grid-square padding-xs">
+                            <block wx:for="{{item.itemPicture}}" wx:for-index="pIndex" wx:for-item="picture">
+                                <view class="bg-img" style="background-image:url('{{picture}}');" catchtap="previewImage" data-itemIndex="{{index}}" data-firstUrl="{{picture}}"></view>
+                            </block>
+                        </view>
+                    </view>
+                </view>
+                <view class="move grid col-1">
+                    <view class="padding">
+                        <text class="cuIcon-delete text-red" style="font-size: 30px;" catchtap="delete" data-index="{{index}}"></text>
+                    </view>
+                    <view class="padding">
+                        <text class="cuIcon-check text-green" style="font-size: 30px;" catchtap="complete" data-index="{{index}}"></text>        
+                    </view>
+                </view>
+            </view>
+        </block>
+    </view>
+</view>

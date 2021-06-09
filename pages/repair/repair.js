@@ -1,4 +1,4 @@
-const baseUrl = 'http://localhost:8080/bysj/'
+const baseUrl = 'https://codemata.club/bysj/'
 
 Page({
 
@@ -113,7 +113,8 @@ Page({
                 property: property,
                 value: value,
                 limit: that.data.limit,
-                page: 1
+                page: 1,
+                userId: wx.getStorageSync('openid')
             }
         );
         if (res.data.code == 0 && res.data.count > 0) {
@@ -176,7 +177,8 @@ Page({
             baseUrl + 'worker/getAllWorkers.do',
             {
                 limit: that.data.limit,
-                page: 1
+                page: 1,
+                userId: wx.getStorageSync('openid')
             }
         );
         if (res.data.code == 0 && res.data.count > 0) {
@@ -184,7 +186,6 @@ Page({
                 workers: res.data.workers,
                 pageTotal: Math.ceil(res.data.count / that.data.limit)
             });
-            console.log(that.data.workers);
         }
     },
 
@@ -251,7 +252,8 @@ Page({
               limit: that.data.limit,
               page: that.data.page + 1,
               property: property,
-              value: value
+              value: value,
+              userId: wx.getStorageSync('openid')
           },
           method: 'POST',
           dataType: 'json',

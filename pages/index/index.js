@@ -64,8 +64,8 @@ Page({
       case '天气预报':
         url = '../weather/weather';
         break;
-      case '小区房产':
-        url = '../houseInfo/houseInfo'
+      case '防疫查询':
+        url = '../epidemic/epidemic'
         break;
       case '失物招领':
         url = '../theLost/theLost'

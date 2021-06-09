@@ -1,4 +1,4 @@
-const baseUrl = 'http://localhost:8080/bysj/';
+const baseUrl = 'https://codemata.club/bysj/';
 const md5 = require('../../utils/md5.js');
 
 Page({
@@ -50,10 +50,26 @@ Page({
         });
     },
 
+    /**
+     * @author DengJie
+     * @date 2021-04-23
+     * @description 移除arr数组中下标为index的元素
+     */
+    removeArratElem: function (index) {
+        var that = this;
+        var tempList = [];
+        for (let i = 0; i < that.data.repairList.length; ++i) {
+            if (i == index) {
+                continue;
+            }
+            tempList.push(that.data.repairList[i]);
+        }
+    },
+
     getQrCode: function () {
         var that = this;
         that.setData({
-            order_id: that.data.repairList[that.data.listIndex].repairId,
+            order_id: that.data.repairList[that.data.listIndex].repairId + '/' + new Date().getTime().toString(),
             price: that.data.repairList[that.data.listIndex].cost
         })
         wx.request({
@@ -71,7 +87,6 @@ Page({
           dataType: 'json',
           header: {'Content-Type': 'application/x-www-form-urlencoded'},
           success: function (res) {
-              console.log(res);
               that.setData({
                   payCode: 'https://xorpay.com/qr?data=' + res.data.info.qr
               });
@@ -79,7 +94,8 @@ Page({
                 url: baseUrl + 'QrCode/modifyCode.do',
                 data: {
                     codeId: that.data.repairList[that.data.listIndex].repairId,
-                    qrCode: res.data.info.qr
+                    qrCode: res.data.info.qr,
+                    userId: wx.getStorageSync('openid')
                 },
                 method: 'POST',
                 dataType: 'json',
@@ -177,13 +193,11 @@ Page({
                 // 进入无穷的if else吧 👴吐了
                 // 我是傻逼 我是傻逼 我是傻逼
                 if (res.confirm) {
-                    var canDelete = true;
                     if (that.data.repairList[e.currentTarget.dataset.index].orderStatus == '未完成' && that.data.repairList[e.currentTarget.dataset.index].payStatus == '已支付') {
                         var paymentRes = await that.useSync(
                             baseUrl + 'pay/getPayment.do',
-                            {billId: that.data.repairList[e.currentTarget.dataset.index].repairId}
+                            {billId: that.data.repairList[e.currentTarget.dataset.index].repairId, userId: wx.getStorageSync('openid')}
                         );
-                        console.log(paymentRes);
                         // 查到了支付记录ID才进行退款 否则直接返回报错
                         if (paymentRes.data.status == 'success') {
                             var refundRes = await that.useSync(
@@ -193,14 +207,14 @@ Page({
                                     sign: md5.md5(parseFloat(that.data.repairList[e.currentTarget.dataset.index].cost + '') + 'cdcc2ed5c2434790abe36f0a037c5a23')
                                 }
                             );
-                            console.log(refundRes);
                             if (refundRes.data.status == 'ok' || paymentRes.data.status == 'order_error') {
                                 // 在数据库中删除这条记录
                                 var deleteRes = await that.useSync(
                                     baseUrl + 'PropertyRepair/userDelete.do',
                                     {
                                         id: that.data.repairList[e.currentTarget.dataset.index].repairId,
-                                        type: that.data.repairList[e.currentTarget.dataset.index].orderStatus == '已完成' ? '删除' : '取消'
+                                        type: that.data.repairList[e.currentTarget.dataset.index].orderStatus == '已完成' ? '删除' : '取消',
+                                        userId: wx.getStorageSync('openid')
                                     }
                                 );
                                 if (deleteRes.data.status == 'success') {
@@ -210,6 +224,7 @@ Page({
                                       duration: 3000,
                                       mask: true
                                     });
+                                    that.removeArratElem(e.currentTarget.dataset.index);
                                 } else {
                                     wx.showToast({
                                       title: '删除失败',
@@ -240,7 +255,8 @@ Page({
                             baseUrl + 'PropertyRepair/userDelete.do',
                             {
                                 id: that.data.repairList[e.currentTarget.dataset.index].repairId,
-                                type: '取消'
+                                type: '取消',
+                                userId: wx.getStorageSync('openid')
                             }
                         );
                         if (res.data.status == 'success') {
@@ -250,6 +266,7 @@ Page({
                               duration: 3000,
                               mask: true
                             });
+                            that.removeArratElem(e.currentTarget.dataset.index);
                         } else {
                             wx.showToast({
                               title: '删除失败',
@@ -258,12 +275,21 @@ Page({
                               mask: true
                             });
                         }
-                    } else {
+                    } else if (that.data.repairList[e.currentTarget.dataset.index].orderStatus == '已完成' && that.data.repairList[e.currentTarget.dataset.index].payStatus == '未支付') {
+                        wx.showToast({
+                          title: '请先支付再删除!',
+                          icon: 'none',
+                          duration: 3000,
+                          mask: true
+                        });
+                        return;
+                    }else {
                         let res = await that.useSync(
                             baseUrl + 'PropertyRepair/userDelete.do',
                             {
                                 id: that.data.repairList[e.currentTarget.dataset.index].repairId,
-                                type: '删除'
+                                type: '删除',
+                                userId: wx.getStorageSync('openid')
                             }
                         );
                         if (res.data.status == 'success') {
@@ -273,6 +299,7 @@ Page({
                               duration: 3000,
                               mask: true
                             });
+                            that.removeArratElem(e.currentTarget.dataset.index);
                         } else {
                             wx.showToast({
                               title: '删除失败',
@@ -302,13 +329,13 @@ Page({
         wx.request({
           url: baseUrl + 'QrCode/getQrCode.do',
           data: {
-              codeId: that.data.repairList[e.currentTarget.dataset.index].repairId
+              codeId: that.data.repairList[e.currentTarget.dataset.index].repairId,
+              userId: wx.getStorageSync('openid')
           },
           method: 'POST',
           dataType: 'json',
           header: {'Content-Type': 'application/x-www-form-urlencoded'},
           success: function (res) {
-              console.log(res);
               that.setData({
                   payCode: 'https://xorpay.com/qr?data=' + res.data.code.qrCode
               });

@@ -68,13 +68,13 @@
                 </view>
                 <view class="cu-form-group">
                     <view class="title">开始时间</view>
-                    <picker bindchange="startDateChange" end="2025-01-01" start="2021-01-01" value="{{startDate}}" mode="date">
+                    <picker bindchange="startDateChange" end="2025-01-01" start="{{startDate}}" value="{{startDate}}" mode="date">
                         <view class="picker">{{startDate}}</view>
                     </picker>
                 </view>
                 <view class="cu-form-group">
                     <view class="title">结束时间</view>
-                    <picker bindchange="endDateChange" end="2025-01-01" start="2021-01-01" value="{{endDate}}" mode="date">
+                    <picker bindchange="endDateChange" end="2025-01-01" start="{{endDate}}" value="{{endDate}}" mode="date">
                         <view class="picker">{{endDate}}</view>
                     </picker>
                 </view>

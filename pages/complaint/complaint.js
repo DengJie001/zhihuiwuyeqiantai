@@ -1,4 +1,4 @@
-const baseUrl = 'http://localhost:8080/bysj/';
+const baseUrl = 'https://codemata.club/bysj/';
 
 Page({
 
@@ -49,6 +49,9 @@ Page({
             wx.uploadFile({
               filePath: data,
               name: 'image',
+              formData: {
+                  userId: wx.getStorageSync('openid')
+              },
               url: baseUrl + 'complaint/uploadComplaintImages.do',
               header: {'Content-Type': 'multipart/x-www-form-urlencoded'},
               dataType: 'json',
@@ -242,7 +245,6 @@ Page({
                 }
             }
         }
-        console.log('imagesPath:' + imagesPath);
         var submitRes = await that.postData(
             baseUrl + 'complaint/addComplaint.do',
             {
@@ -252,7 +254,6 @@ Page({
                 content: that.data.content
             }
         );
-        console.log(submitRes);
         wx.hideLoading({});
         if (submitRes.data.msgId == 1) {
             wx.showToast({

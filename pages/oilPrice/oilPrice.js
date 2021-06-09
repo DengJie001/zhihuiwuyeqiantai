@@ -27,7 +27,7 @@ Page({
         });
         // 查询全国油价
         wx.request({
-          url: 'http://apis.juhe.cn/gnyj/query',
+          url: 'https://apis.juhe.cn/gnyj/query',
           data: {
               key: oilPriceQueryKey
           },

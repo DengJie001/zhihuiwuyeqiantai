@@ -1,4 +1,4 @@
-const baseUrl = 'http://localhost:8080/bysj/';
+const baseUrl = 'https://codemata.club/bysj/';
 
 Page({
 
@@ -131,7 +131,8 @@ Page({
         var res = await that.useSync(
             baseUrl + 'complaint/deleteComplaint.do',
             {
-                id: that.data.currentDeleteId
+                id: that.data.currentDeleteId,
+                userId: wx.getStorageSync('openid')
             }
         );
         that.hideModal();
@@ -160,7 +161,6 @@ Page({
     onLoad: async function (options) {
         var that = this;
         var res = {};
-        console.log(that.data.complaintList.length);
         try {
             that.setData({
                 userId: wx.getStorageSync('openid')
@@ -171,8 +171,6 @@ Page({
               title: '缓存异常!',
             });
         }
-        // TODO 删除
-        console.log(that.data.userId);
         res = await that.useSync(
             baseUrl + 'complaint/userGetAllComplaints.do',
             {
@@ -187,7 +185,6 @@ Page({
                 complaintList: res.data.complaints
             });
         }
-        console.log(that.data.complaintList);
     },
 
     /**
@@ -280,7 +277,7 @@ Page({
             {
                 limit: that.data.limit,
                 page: that.data.page + 1,
-                userId: that.data.userId
+                userId: wx.getStorageSync('openid')
             }
         );
         if (res.data.code == 0) {

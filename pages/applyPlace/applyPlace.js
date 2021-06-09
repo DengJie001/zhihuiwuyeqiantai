@@ -1,5 +1,5 @@
 const md5 = require('../../utils/md5.js');
-const baseUrl = 'http://localhost:8080/bysj/';
+const baseUrl = 'https://codemata.club/bysj/';
 
 Page({
 
@@ -74,7 +74,6 @@ Page({
         var that = this;
         var placeInfo = that.data.placeInfo;
         if (placeInfo.placeStatus == '使用中' || placeInfo.placeStatus == '维护中' || placeInfo.placeStatus == '审核中') {
-            console.log(placeInfo.placeStatus);
             that.setData({
                 modal: 'yes',
                 tips: '当前场地正在' + placeInfo.placeStatus + ',暂时无法使用!'
@@ -226,7 +225,8 @@ Page({
         var res = await that.useSync(
             baseUrl + 'PlaceApplication/savePlaceApplication.do',
             {
-                placeApplication: JSON.stringify(placeApplication)
+                placeApplication: JSON.stringify(placeApplication),
+                userId: wx.getStorageSync('openid')
             }
         );
         if (res.data.status == 'success') {
@@ -248,6 +248,7 @@ Page({
         var qrCode = await that.useSync(
             'https://xorpay.com/api/pay/18187',
             {
+                userId: wx.getStorageSync('openid'),
                 name: that.data.name,
                 pay_type: that.data.pay_type,
                 price: that.data.price,
@@ -286,10 +287,18 @@ Page({
      */
     onLoad: function (options) {
         var that = this;
+        var year = new Date().getFullYear();
+        var month = new Date().getMonth() + 1;
+        var date = new Date().getDate();
+        if (month <= 9) {
+            month = '0' + month
+        }
         try {
             that.setData({
                 placeInfo: wx.getStorageSync(options.placeId),
-                userId: wx.getStorageSync('openid')
+                userId: wx.getStorageSync('openid'),
+                startDate: year + '-' + month + '-' + date,
+                endDate: year + '-' + month + '-' + date
             });
         } catch (e) {
             wx.showToast({
@@ -299,7 +308,7 @@ Page({
               mask: true
             });
         }
-        console.log(that.data.userId);
+
     },
 
     /**

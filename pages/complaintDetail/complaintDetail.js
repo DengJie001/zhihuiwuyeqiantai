@@ -1,4 +1,4 @@
-const baseUrl = 'http://localhost:8080/bysj/';
+const baseUrl = 'https://codemata.club/bysj/';
 
 Page({
 
@@ -30,7 +30,8 @@ Page({
           url: baseUrl + 'complaint/submitResult.do',
           data: {
               complaintId: that.data.complaint.id,
-              result: e.currentTarget.dataset.result
+              result: e.currentTarget.dataset.result,
+              userId: wx.getStorageSync('openid')
           },
           method: 'post',
           dataType: 'json',
@@ -114,7 +115,6 @@ Page({
             complaint: complaint,
             nowDate: year + '-' + month + '-' + date
         });
-        console.log(that.data.complaint.complaintPicture);
     },
 
     /**

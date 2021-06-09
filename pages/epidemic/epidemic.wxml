@@ -1,0 +1,82 @@
+<cu-custom bgColor="bg-gradual-green" isBack="{{true}}">
+    <view slot="backText">返回</view>
+    <view slot="content">疫情防控</view>
+</cu-custom>
+<scroll-view scroll-x="true" class="bg-white nav">
+    <view class="flex text-center">
+        <view class="cu-item flex-sub {{index==tabCur?'text-green cur':''}}" wx:for="{{tabName.length}}" wx:key
+            bindtap="tabSelect" data-id="{{index}}">
+            {{tabName[index]}}
+        </view>
+    </view>
+</scroll-view>
+<!-- 风险地区板块 -->
+<view hidden="{{isRegionHidden}}" style="margin-top: 10px;">
+    <view class="flex justify-center text-sm text-red margin-top-xs">以下数据仅供参考,可能存在更新延迟或错误,请以相关部门官方通知为准</view>
+    <view class="flex justify-center text-center text-red margin-top-xs">更新时间:{{infoUpdateTime}}</view>
+    <scroll-view scroll-y="true" class="margin-top-sm">
+        <!-- 高风险地区 -->
+        <block wx:for="{{highRiskRegions}}" wx:for-item="highRiskRegion" wx:for-index="index">
+            <view class="flex justify-center margin-top-sm">
+                <view class="grid col-1 bg-white" style="border-radius: 10rpx; width: 95%;">
+                    <view class="flex justify-between align-center">
+                        <view class="padding solid-bottom text-xl text-bold">{{highRiskRegion.province}}</view>
+                        <view class="cu-tag line-red margin-right-sm">高风险</view>
+                    </view>
+                    <view class="margin-top-xs margin-left-sm text-sm">地区：{{highRiskRegion.area_name}}</view>
+                    <view class="margin-top-xs margin-left-sm text-sm">
+                        类型：<text class="text-{{highRiskRegion.type == '1' ? 'red' : 'orange'}}">{{highRiskRegion.type == '1' ? '全部区域' : '部分区域'}}</text>
+                    </view>
+                    <view class="margin-top-xs margin-left-sm margin-bottom-xs text-sm">
+                        详细区域：<view wx:for="{{highRiskRegion.communitys}}" wx:for-item="community" wx:for-index="communityIndex"
+                        class="margin-bottom-{{communityIndex == highRiskRegion.communitys.length - 1 ? 'sm' : 'xs'}}">{{community}};</view>
+                    </view>
+                </view>
+            </view>
+        </block>
+        <!-- 中风险地区 -->
+        <block wx:for="{{middleRiskRegions}}" wx:for-item="middleRiskRegion" wx:for-index="middleIndex">
+            <view class="flex justify-center margin-top-sm">
+                <view class="grid col-1 bg-white" style="border-radius: 10rpx; width: 95%;">
+                    <view class="flex justify-between align-center">
+                        <view class="padding solid-bottom text-xl text-bold">{{middleRiskRegion.province}}</view>
+                        <view class="cu-tag line-orange margin-right-sm">中风险</view>
+                    </view>
+                    <view class="margin-top-xs margin-left-sm text-sm">地区：{{middleRiskRegion.area_name}}</view>
+                    <view class="margin-top-xs margin-left-sm text-sm">
+                        类型：<text class="text-{{middleRiskRegion.type == '1' ? 'red' : 'orange'}}">{{middleRiskRegion.type == '1' ? '全部区域' : '部分区域'}}</text>
+                    </view>
+                    <view class="margin-top-xs margin-left-sm margin-bottom-xs text-sm">
+                        详细区域：<view wx:for="{{middleRiskRegion.communitys}}" wx:for-item="middleCommunity" wx:for-index="middleCommunityIndex"
+                        class="margin-bottom-{{middleCommunityIndex == middleRiskRegion.communitys.length - 1 ? 'sm' : 'xs'}}">{{middleCommunity}};</view>
+                    </view>
+                </view>
+            </view>
+        </block>
+    </scroll-view>
+</view>
+
+<!-- 核酸检测机构板块 -->
+<view hidden="{{isOrganizationHidden}}" style="margin-top: 10px;">
+    <view class="cu-form-group">
+        <view class="title">地址选择</view>
+        <picker mode="multiSelector" bindchange="multiChange" bindcolumnchange="multiColumnChange" value="{{multiIndex}}" range="{{regions}}">
+            <view class="picker">
+                {{regions[0][multiIndex[0]]}}-{{regions[1][multiIndex[1]]}}
+            </view>
+        </picker>
+    </view>
+    <view class="flex justify-center text-sm text-red margin-top-xs">以下数据仅供参考,可能存在更新延迟或错误,请以相关部门官方通知为准</view>
+    <scroll-view scroll-y="true" class="margin-top-sm">
+        <block wx:for="{{organizations}}" wx:for-item="organization" wx:for-index="index">
+            <view class="flex justify-center margin-top-sm">
+                <view class="grid col-1 bg-white" style="width: 95%;border-radius: 10rpx;">
+                    <view class="padding solid-bottom text-xl text-bold">{{organization.name}}</view>
+                    <view class="margin-top margin-left-sm text-sm">所在地区：{{organization.province}}-{{organization.city}}</view>
+                    <view class="margin-top margin-left-sm text-sm">联系方式：{{organization.phone}}</view>
+                    <view class="margin-top margin-left-sm margin-bottom-sm text-sm">详细地址：{{organization.address}}</view>
+                </view>
+            </view>
+        </block>
+    </scroll-view>
+</view>

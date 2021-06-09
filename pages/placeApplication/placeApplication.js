@@ -1,4 +1,4 @@
-const baseUrl = 'http://localhost:8080/bysj/';
+const baseUrl = 'https://codemata.club/bysj/';
 
 Page({
 
@@ -102,7 +102,8 @@ Page({
           data: {
               property: that.data.properties[that.data.index],
               lowerValue: that.data.lowerValue,
-              higherValue: that.data.higherValue
+              higherValue: that.data.higherValue,
+              userId: wx.getStorageSync('openid')
           },
           header: {'Content-Type': 'application/x-www-form-urlencoded'},
           method: 'POST',
@@ -152,7 +153,8 @@ Page({
               page: 1,
               limit: that.data.limit,
               property: that.data.properties[that.data.index],
-              value: that.data.keyWords
+              value: that.data.keyWords,
+              userId: wx.getStorageSync('openid')
           },
           header: {'Content-Type': 'application/x-www-form-urlencoded'},
           method: 'POST',
@@ -229,7 +231,8 @@ Page({
               page: 1,
               limit: 10,
               property: null,
-              value: null
+              value: null,
+              userId: wx.getStorageSync('openid')
           },
           header: {'Content-Type': 'application/x-www-form-urlencoded'},
           method: 'POST',
@@ -333,7 +336,8 @@ Page({
               page: that.data.page,
               limit: that.data.limit,
               property: property,
-              value: value
+              value: value,
+              userId: wx.getStorageSync('openid')
           },
           header: {'Content-Type': 'application/x-www-form-urlencoded'},
           method: 'POST',

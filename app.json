@@ -1,18 +1,15 @@
 {
     "pages": [
         "pages/index/index",
-        "pages/demo/demo",
         "pages/userRegister/userRegister",
         "pages/oilPrice/oilPrice",
         "pages/announcement/announcement",
         "pages/announcementDetail/announcementDetail",
         "pages/placeApplication/placeApplication",
         "pages/payment/payment",
-        "pages/activities/activities",
         "pages/repair/repair",
         "pages/complaint/complaint",
         "pages/weather/weather",
-        "pages/houseInfo/houseInfo",
         "pages/theLost/theLost",
         "pages/applyPlace/applyPlace",
         "pages/userMain/userMain",
@@ -20,7 +17,11 @@
         "pages/complaintDetail/complaintDetail",
         "pages/workerDetail/workerDetail",
         "pages/payStep/payStep",
-        "pages/myRepairList/myRepairList"
+        "pages/myRepairList/myRepairList",
+        "pages/myApplicationList/myApplicationList",
+        "pages/epidemic/epidemic",
+        "pages/billList/billList",
+        "pages/myLostItems/myLostItems"
     ],
     "window": {
         "backgroundTextStyle": "light",
@@ -54,8 +55,5 @@
     "usingComponents": {
         "cu-custom": "colorui/components/cu-custom"
     },
-    "sitemapLocation": "sitemap.json",
-    "navigateToMiniProgramAppIdList": [
-        "wx6eeed4ca124a1abf"
-    ]
+    "sitemapLocation": "sitemap.json"
 }

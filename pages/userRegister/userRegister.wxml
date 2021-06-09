@@ -23,12 +23,27 @@
         <!-- TODO 添加选择器 -->
         <view class="cu-form-group">
             <view class="title">区号</view>
+            <picker bindchange="areaChange" value="{{areaIndex}}" range="{{areas}}">
+                <view class="picker">
+                    {{areaIndex == -1 ? '选择区号' : areas[areaIndex] + '区'}}
+                </view>
+            </picker>
         </view>
         <view class="cu-form-group">
             <view class="title">单元号</view>
+            <picker bindchange="unitChange" value="{{unitIndex}}" range="{{units}}" disabled="{{unitDisabled}}">
+                <view class="picker">
+                    {{unitIndex == -1 ? '请先选择区号' : units[unitIndex] + '单元'}}
+                </view>
+            </picker>
         </view>
         <view class="cu-form-group">
-            <view class="title">房间号</view>
+            <view class="title">门牌号</view>
+            <picker bindchange="roomChange" value="{{roomIndex}}" range="{{rooms}}" disabled="{{roomDisabled}}">
+                <view class="picker">
+                    {{roomIndex == -1 ? '请先选择区号和单元号' : rooms[roomIndex]}}
+                </view>
+            </picker>
         </view>
         <view class="btn-container">        
             <button class="cu-btn round bg-gradual-blue shadow" bindtap="doRegister">注册</button>
