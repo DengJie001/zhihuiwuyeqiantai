@@ -1,0 +1,31 @@
+<cu-custom bgColor="bg-gradual-blue" isBack="{{true}}">
+    <view slot="backText">返回</view>
+    <view slot="content">缴费历史</view>
+</cu-custom>
+<view class="page">
+    <scroll-view scroll-y="true">
+        <block wx:for="{{bills}}" wx:for-item="bill" wx:for-index="index">
+            <view class="flex justify-center margin-top-sm {{index == bills.length - 1 ? 'margin-bottom-sm' : ''}}">
+                <view class="grid col-1 bg-white" style="border-radius: 10rpx; width: 95%;">
+                    <view class="flex justify-between align-center">
+                        <view class="padding solid-bottom text-xl text-bold">{{bill.billCategory}}</view>
+                        <view class="cu-tag line-{{bill.billStatus == '已缴费' ? 'green' : 'red'}} margin-right-sm">{{bill.billStatus}}</view>
+                    </view>
+                    <view class="margin-top-xs margin-left-sm text-sm">日期：{{bill.billDate}}</view>
+                    <view class="margin-top-xs margin-left-sm text-sm">
+                        门牌号：{{bill.areaId}}区-{{bill.unitId}}单元-{{bill.roomId}}号
+                    </view>
+                    <view class="margin-top-xs margin-left-sm text-sm">
+                        管理员：{{bill.managerName}}
+                    </view>
+                    <view class="margin-top-xs margin-left-sm text-sm">
+                        联系方式：{{bill.managerTel}}
+                    </view>
+                    <view class="margin-top-xs margin-left-sm text-sm text-orange margin-bottom-sm">
+                        金额：{{bill.billFigure}}
+                    </view>
+                </view>
+            </view>
+        </block>
+    </scroll-view>
+</view>

@@ -1,25 +1,56 @@
 {
     "pages": [
         "pages/index/index",
-        "pages/demo/demo",
         "pages/userRegister/userRegister",
         "pages/oilPrice/oilPrice",
         "pages/announcement/announcement",
         "pages/announcementDetail/announcementDetail",
         "pages/placeApplication/placeApplication",
         "pages/payment/payment",
-        "pages/activities/activities",
         "pages/repair/repair",
         "pages/complaint/complaint",
         "pages/weather/weather",
-        "pages/houseInfo/houseInfo"
+        "pages/theLost/theLost",
+        "pages/applyPlace/applyPlace",
+        "pages/userMain/userMain",
+        "pages/myComplaintList/myComplaintList",
+        "pages/complaintDetail/complaintDetail",
+        "pages/workerDetail/workerDetail",
+        "pages/payStep/payStep",
+        "pages/myRepairList/myRepairList",
+        "pages/myApplicationList/myApplicationList",
+        "pages/epidemic/epidemic",
+        "pages/billList/billList",
+        "pages/myLostItems/myLostItems"
     ],
     "window": {
         "backgroundTextStyle": "light",
+        "backgroundColor": "#ffffff",
         "navigationBarBackgroundColor": "#fff",
         "navigationBarTitleText": "智慧物业",
         "navigationStyle": "custom",
         "navigationBarTextStyle": "black"
+    },
+    "tabBar": {
+        "color": "#494949",
+        "selectedColor": "#DC0892",
+        "backgroundColor": "white",
+        "borderStyle": "black",
+        "position": "bottom",
+        "list": [
+            {
+                "selectedIconPath": "images/tabbar/首页.png",
+                "iconPath": "images/tabbar/首页未选中.png",
+                "pagePath": "pages/index/index",
+                "text": "首页"
+            },
+            {
+                "selectedIconPath": "images/tabbar/个人中心.png",
+                "iconPath": "images/tabbar/个人中心未选中.png",
+                "pagePath": "pages/userMain/userMain",
+                "text": "个人中心"
+            }
+        ]
     },
     "usingComponents": {
         "cu-custom": "colorui/components/cu-custom"

@@ -21,7 +21,7 @@
     </view>
 
     <!-- 置顶公告区域 -->
-    <view class="flex justify-center">
+    <view class="flex justify-center" data-announcementId="{{topAnnouncement.id}}" bindtap="toDetail">
         <view class="shadow bg-white radius margin-sm" style="width: 90%;">
             <view class="flex margin-top-xs margin-left-xs">
                 <view class="flex-sub text-cut" style="width: 90%;">标题：{{topAnnouncement.title}}</view>
@@ -40,7 +40,7 @@
     <!-- 非置顶公告列表区域 -->
     <scroll-view scroll-y="true" scroll-with-animation="true">
         <block wx:for="{{announcements}}" wx:for-index="index" wx:for-item="item">
-            <view class="flex justify-center">
+            <view class="flex justify-center" data-announcementId="{{item.id}}" bindtap="toDetail">
                 <view class="shadow bg-white radius margin-sm" style="width: 90%;">
                     <view class="flex margin-top-xs margin-left-xs">
                         <view class="flex-sub text-cut" style="width: 90%;">标题：{{item.title}}</view>

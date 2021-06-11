@@ -1,0 +1,125 @@
+<cu-custom bgColor="bg-gradual-pink" isBack="{{true}}">
+    <view slot="backText">返回</view>
+    <view slot="content">申请活动场地-#{{placeInfo.placeId}}</view>
+</cu-custom>
+<view class="page">
+    <swiper class="screen-swiper {{DotStyle?'square-dot':'round-dot'}}" indicator-dots="true" circular="true"
+        autoplay="true" interval="5000" duration="500" bindtap="previewPicture">
+        <swiper-item wx:for="{{placeInfo.placePicture}}" wx:for-item="item" wx:for-index="index">
+            <image src="{{item}}" mode="aspectFill"></image>
+        </swiper-item>
+    </swiper>
+    <view class="flex justify-center margin-top-sm">
+        <view class="bg-white padding shadow" style="width: 95%;border-radius: 10rpx;">
+            <view class="grid col-1">
+                <view class="flex align-center">
+                    <view class="flex-sub" style="color: orange;font-size: large;">
+                        <text style="color: orange; font-size: small;">￥</text>{{placeInfo.placePrice}}
+                    </view>
+                    <view class="flex-sub" style="margin-left: -400rpx;">
+                        <view class="cu-capsule round">
+                            <view class="cu-tag bg-orange">{{placeInfo.placeStatus}}</view>
+                        </view>
+                    </view>
+                </view>
+                <view class="margin-top-sm desc">
+                    <view class="content">{{placeInfo.placeDescription}}</view>
+                </view>
+                <view class="margin-top-sm">管理员:{{placeInfo.managerName}}</view>
+                <view class="margin-top-sm">联系方式:{{placeInfo.managerTel}}</view>
+            </view>
+        </view>
+    </view>
+    <view class="flex justify-end">
+        <view class="margin">
+            <button class="cu-btn round lg button-hover bg-green" bindtap="apply">申请使用</button>
+        </view>
+    </view>
+</view>
+<!-- 提示 -->
+<view class="cu-modal {{modal=='yes'?'show':''}}">
+    <view class="cu-dialog">
+        <view class="cu-bar bg-white justify-end">
+            <view class="content">提示</view>
+            <view class="action" bindtap="hideModal">
+                <text class="cuIcon-close text-red"></text>
+            </view>
+        </view>
+        <view class="padding-xl">
+            {{tips}}
+        </view>
+    </view>
+</view>
+
+<!-- 场地申请表 -->
+<view class="cu-modal {{showApplicationForm=='yes'?'show':''}}">
+    <view class="cu-dialog">
+        <view class="cu-bar bg-white justify-end">
+            <view class="content">场地申请</view>
+            <view class="action" bindtap="hideModal">
+                <text class="cuIcon-close text-red"></text>
+            </view>
+        </view>
+        <view class="padding-xl">
+            <form>
+                <view class="cu-form-group align-start">
+                    <view class="title">申请原因</view>
+                    <textarea placeholder="请简要说明申请场地的原因!" maxlength="-1" bindinput="getTextAreaValue"></textarea>
+                </view>
+                <view class="cu-form-group">
+                    <view class="title">开始时间</view>
+                    <picker bindchange="startDateChange" end="2025-01-01" start="{{startDate}}" value="{{startDate}}" mode="date">
+                        <view class="picker">{{startDate}}</view>
+                    </picker>
+                </view>
+                <view class="cu-form-group">
+                    <view class="title">结束时间</view>
+                    <picker bindchange="endDateChange" end="2025-01-01" start="{{endDate}}" value="{{endDate}}" mode="date">
+                        <view class="picker">{{endDate}}</view>
+                    </picker>
+                </view>
+                <view class="cu-form-group align-start">
+                    <view class="title">费用:</view>
+                    <view class="flex-sub text-right">
+                        <view class="solid-bottom text-xxl padding">
+                            <text class="text-price text-orange">{{cost}}</text>
+                        </view>
+                    </view>
+                </view>
+                <view class="flex justify-center margin-top-sm">
+                    <view class="flex">
+                        <button class="cu-btn round lg button-hover bg-gradual-pink" bindtap="submitApplication">提交</button>
+                    </view>
+                </view>
+            </form>
+        </view>
+    </view>
+</view>
+
+<!-- 支付码展示 -->
+<view class="cu-modal {{showQrCode=='yes'?'show':''}}">
+    <view class="cu-dialog">
+        <view class="cu-bar bg-white justify-end">
+            <view class="content">扫码支付</view>
+            <view class="action" bindtap="hideModal" data-name="QrCode">
+                <text class="cuIcon-close text-red"></text>
+            </view>
+        </view>
+        <view class="padding-xl">
+            <view class="flex justify-center">
+                <view class="padding">
+                    <image style="height: 150px; width: 150px" src="{{payCode}}" bindtap="previewQrCode"></image>
+                </view>
+                <view class="padding">
+                    点击左方二维码,长按保存,打开微信扫一扫,进行扫码支付,<text style="color: red;">1天内有效,支付后</text>,管理员优先审核已付款!
+                </view>
+            </view>
+        </view>
+        <view class="cu-bar bg-white justify-end">
+            <view class="action">
+                <button class="cu-btn line-green text-green" bindtap="toPayStep">教我操作</button>
+                <button class="cu-btn bg-green margin-left" bindtap="hideModal" data-name="QrCode">我明白了</button>
+            </view>
+        </view>
+    </view>
+</view>

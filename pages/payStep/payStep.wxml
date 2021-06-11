@@ -1,0 +1,22 @@
+<cu-custom bgColor="bg-gradual-pink" isBack="{{true}}">
+    <view slot="backText">返回</view>
+    <view slot="content">支付步骤</view>
+</cu-custom>
+<view class="page">
+    <view class="grid col-1 margin-top-sm">
+        <view>第一步 点击二维码将出现大图</view>
+        <view class="flex justify-center margin-top-sm">
+            <image style="height: 376px; width: 350px;" mode="aspectFill" src="../../images/payStep/step1.png"></image>
+        </view>
+
+        <view>第二步 长按大图 选择扫描图中二维码</view>
+        <view class="flex justify-center margin-top-sm">
+            <image style="height: 532px; width: 300px;" mode="aspectFill" src="../../images/payStep/step3.jpg"></image>
+        </view>
+
+        <view>第三步 进行支付</view>
+        <view class="flex justify-center margin-top-sm">
+            <image style="height: 532px; width: 300px" mode="aspectFill" src="../../images/payStep/step4.jpg"></image>
+        </view>
+    </view>
+</view>

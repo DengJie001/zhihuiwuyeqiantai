@@ -1,0 +1,124 @@
+<cu-custom bgColor="bg-gradual-green" isBack="{{true}}">
+    <view slot="backText">返回</view>
+    <view slot="content">社区失物招领</view>
+</cu-custom>
+<scroll-view scroll-x="true" class="bg-white nav">
+    <view class="flex text-center">
+        <view class="cu-item flex-sub {{index==tabCur?'text-green cur':''}}" wx:for="{{tabName.length}}" wx:key bindtap="tabSelect" data-id="{{index}}">
+            {{tabName[index]}}
+        </view>
+    </view>
+</scroll-view>
+<!-- 失物招领列表 -->
+<view hidden="{{isListHidden}}">
+    <view class="flex justify-between margin-top-sm">
+        <button class="cu-btn button-hover {{btnSelected == 1 ? 'bg' : 'line'}}-green" bindtap="setCondition" data-msg="未解决">未解决</button>
+        <button class="cu-btn button-hover {{btnSelected == 2 ? 'bg' : 'line'}}-green" bindtap="setCondition" data-msg="全部">显示全部</button>
+        <button class="cu-btn button-hover {{btnSelected == 3 ? 'bg' : 'line'}}-green" bindtap="setCondition" data-msg="失物招领">失物招领</button>
+        <button class="cu-btn button-hover {{btnSelected == 4 ? 'bg' : 'line'}}-green" bindtap="setCondition" data-msg="寻物启事">寻物启事</button>
+    </view>
+    <scroll-view scroll-y="true">
+        <block wx:for="{{lostItems}}" wx:for-index="index" wx:for-item="item">
+            <view class="flex justify-center margin-top-sm" hidden="{{item.hidden}}" data-index="{{index}}">
+                <view class="grid col-1 bg-white" style="border-radius: 10rpx; width: 95%;">
+                    <view class="flex justify-between align-center solid-bottom">
+                        <view class="padding text-xl text-bold">{{item.itemCategory}}</view>
+                        <view class="cu-tag line-{{item.itemStatus == '已解决' ? 'green' : 'red'}} margin-right-sm">{{item.itemStatus}}</view>
+                    </view>
+                    <view class="flex justify-between align-center">
+                        <view class="flex margin-top-xs align-center">
+                            <view class="cu-avatar round margin-xs" style="background-image:url('../../images/other/boy.png')"></view>
+                            <view class="margin-left-sm grid col-1 text-xs">
+                                <view>{{item.userName}}</view>
+                                <view>{{item.userTel}}</view>
+                            </view>
+                        </view>
+                        <view class="text-xs margin-right-xs">{{item.itemDate}}</view>
+                    </view>
+                    <view class="padding-xs">{{item.itemDescription}}</view>
+                    <view class="grid col-4 grid-square padding-xs">
+                        <block wx:for="{{item.itemPicture}}" wx:for-index="pIndex" wx:for-item="picture">
+                            <view class="bg-img" style="background-image:url('{{picture}}');" catchtap="previewImage" data-itemIndex="{{index}}" data-firstUrl="{{picture}}"></view>
+                        </block>
+                    </view>
+                    <view class="flex justify-end">
+                        <view class="cu-tag bg-red margin-right-xs margin-bottom-xs" bindtap="userComplain" data-index="{{index}}">举报</view>
+                    </view>
+                </view>
+            </view>
+        </block>
+    </scroll-view>
+</view>
+<view hidden="{{isIssueHidden}}" style="margin-top: 10rpx;">
+    <form>
+        <view class="cu-form-group align-start">
+            <view class="title">详细描述</view>
+            <textarea bindinput="getInputValue" maxlength="-1" placeholder="请详细描述您捡到/丢失的物品以及位置,并且至少上传一张图片" style="height: 200rpx;"></textarea>
+        </view>
+        <view class="cu-bar bg-white margin-top">
+            <view class="action">选择图片</view>
+            <view class="action">{{images.length}}/4</view>
+        </view>
+        <view class="cu-form-group">
+            <view class="grid col-4 grid-square flex-sub">
+                <view class="bg-img" wx:for="{{images}}" wx:key="{{index}}" data-url="{{images[index]}}">
+                    <image src="{{images[index]}}" mode="aspectFill"></image>
+                    <view class="cu-tag bg-red" catchtap="deleteImage" data-index="{{index}}">
+                        <text class="cuIcon-close"></text>
+                    </view>
+                </view>
+                <view class="solids" bindtap="chooseImages" wx:if="{{images.length < 4}}">
+                    <text class="cuIcon-cameraadd"></text>
+                </view>
+            </view>
+        </view>
+        <view class="cu-form-group margin-top">
+            <view class="title">类型选择</view>
+            <picker bindchange="categoryChange" value="{{categoryIndex}}" range="{{categories}}">
+                <view class="picker">
+                    {{categories[categoryIndex]}}
+                </view>
+            </picker>
+        </view>
+        <view class="flex justify-end">
+            <button class="cu-btn round bg-green button-hover" bindtap="submit">提交</button>
+        </view>
+    </form>
+</view>
+
+<!-- 提示框 -->
+<view class="cu-modal {{showTips=='yes'?'show':''}}">
+    <view class="cu-dialog">
+        <view class="cu-bar bg-white justify-end">
+            <view class="content">提示</view>
+            <view class="action" bindtap="hideModal">
+                <text class="cuIcon-close text-red"></text>
+            </view>
+        </view>
+        <view class="padding-xl">
+            <text decode="true">
+                {{tips}}
+            </text>
+        </view>
+    </view>
+</view>
+
+<!-- 举报信息 -->
+<view class="cu-modal {{showRadio=='yes'?'show':''}}" bindtap="hideModal">
+  <view class="cu-dialog" catchtap>
+    <view class="content margin-sm">举报类容</view>
+    <radio-group class="block" bindchange="selectComplaintCategory">
+      <view class="cu-list menu text-left">
+        <view class="cu-item" wx:for="{{complaintInfo}}" wx:key wx:for-item="item">
+          <label class="flex justify-between align-center flex-sub">
+            <view class="flex-sub">{{item}}</view>
+            <radio class="round" value="{{item}}"></radio>
+          </label>
+        </view>
+      </view>
+    </radio-group>
+    <view class="flex justify-center bg-white margin-sm">
+        <button class="cu-btn round bg-green button-hover" bindtap="submitComplain">确定</button>
+    </view>
+  </view>
+</view>

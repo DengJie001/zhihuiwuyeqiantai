@@ -1,4 +1,62 @@
-<cu-custom bgColor="bg-gradual-pink" isBack="{{true}}">
+<cu-custom bgColor="bg-gradual-blue" isBack="{{true}}">
     <view slot="backText">返回</view>
     <view slot="content">缴费中心</view>
 </cu-custom>
+<view class="page">
+    <scroll-view scroll-y="true">
+        <block wx:for="{{bills}}" wx:for-item="bill" wx:for-index="index">
+            <view class="flex justify-center margin-top-sm {{index == bills.length - 1 ? 'margin-bottom-sm' : ''}}">
+                <view class="grid col-1 bg-white" style="border-radius: 10rpx; width: 95%;">
+                    <view class="flex justify-between align-center">
+                        <view class="padding solid-bottom text-xl text-bold">{{bill.billCategory}}</view>
+                        <view class="cu-tag line-{{bill.billStatus == '已缴费' ? 'green' : 'red'}} margin-right-sm">{{bill.billStatus}}</view>
+                    </view>
+                    <view class="margin-top-xs margin-left-sm text-sm">日期：{{bill.billDate}}</view>
+                    <view class="margin-top-xs margin-left-sm text-sm">
+                        门牌号：{{bill.areaId}}区-{{bill.unitId}}单元-{{bill.roomId}}号
+                    </view>
+                    <view class="margin-top-xs margin-left-sm text-sm">
+                        管理员：{{bill.managerName}}
+                    </view>
+                    <view class="margin-top-xs margin-left-sm text-sm">
+                        联系方式：{{bill.managerTel}}
+                    </view>
+                    <view class="margin-top-xs margin-left-sm text-sm text-orange">
+                        金额：{{bill.billFigure}}
+                    </view>
+                    <view class="flex justify-end margin-bottom-sm margin-right-sm">
+                        <view class="cu-tag bg-green" bindtap="pay" data-index="{{index}}">缴费</view>
+                    </view>
+                </view>
+            </view>
+        </block>
+    </scroll-view>
+</view>
+
+<!-- 支付码展示 -->
+<view class="cu-modal {{showQrCode=='yes'?'show':''}}">
+    <view class="cu-dialog">
+        <view class="cu-bar bg-white justify-end">
+            <view class="content">扫码支付</view>
+            <view class="action" bindtap="hideModal" data-name="QrCode">
+                <text class="cuIcon-close text-red"></text>
+            </view>
+        </view>
+        <view class="padding-xl">
+            <view class="flex justify-center">
+                <view class="padding">
+                    <image style="height: 150px; width: 150px" src="{{payCode}}" bindtap="previewQrCode"></image>
+                </view>
+                <view class="padding">
+                    点击左方二维码,长按保存,打开微信扫一扫,进行扫码支付,<text style="color: red;">1天内有效!</text>
+                </view>
+            </view>
+        </view>
+        <view class="cu-bar bg-white justify-end">
+            <view class="action">
+                <button class="cu-btn line-green text-green" bindtap="toPayStep">教我操作</button>
+                <button class="cu-btn bg-green margin-left" bindtap="hideModal" data-name="QrCode">我已支付</button>
+            </view>
+        </view>
+    </view>
+</view>

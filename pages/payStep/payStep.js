@@ -1,4 +1,4 @@
-// pages/demo/demo.js
+// pages/payStep/payStep.js
 Page({
 
     /**
@@ -13,18 +13,6 @@ Page({
      */
     onLoad: function (options) {
 
-    },
-
-    test: function (options) {
-        wx.getUserProfile({
-            desc: '获取用户头像，地区，性别',
-            success: function (res) {
-                console.log(res);
-            },
-            fail: function (res) {
-                console.log(res);
-            }
-        });
     },
 
     /**
@@ -75,4 +63,4 @@ Page({
     onShareAppMessage: function () {
 
     }
-});
+})

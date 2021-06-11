@@ -20,9 +20,13 @@
                 </view>
                 <view class="item-title">社区公告</view>
             </view>
-            <!-- 格式占位 -->
-            <view class="item flex-sub padding-xs margin-xs radius bg- ">
+            <view class="item flex-sub padding-xs margin-xs radius bg-blue" bindtap="goto" data-tag="失物招领">
+                <view>
+                    <image src="../../images/失物招领.png" class="item-picture"></image>
+                </view>
+                <view class="item-title">失物招领</view>
             </view>
+            <!-- 格式占位 -->
             <view class="item flex-sub padding-xs margin-xs radius bg- ">
             </view>
         </view>
@@ -43,20 +47,14 @@
                 </view>
                 <view class="item-title">缴费中心</view>
             </view>
-            <view class="item flex-sub padding-xs margin-xs radius bg-yellow" style="height: 100rpx;" bindtap="goto" data-tag="小区活动">
-                <view>
-                    <image src="../../images/活动.png" class="item-picture"></image>
-                </view>
-                <view class="item-title">小区活动</view>
-            </view>
-        </view>
-        <view class="flex text-center">
             <view class="item flex-sub padding-xs margin-xs radius bg-grey" style="height: 100rpx;" bindtap="goto" data-tag="物业报修">
                 <view>
                     <image src="../../images/维修.png" class="item-picture"></image>
                 </view>
                 <view class="item-title">物业报修</view>
             </view>
+        </view>
+        <view class="flex text-center">
             <view class="item flex-sub padding-xs margin-xs radius bg-grey" style="height: 100rpx;"  bindtap="goto" data-tag="投诉建议">
                 <view>
                     <image src="../../images/投诉建议.png" class="item-picture"></image>
@@ -64,6 +62,8 @@
                 <view class="item-title">投诉建议</view>
             </view>
             <!-- 格式占位 -->
+            <view class="item flex-sub padding-xs margin-xs radius" style="height: 100rpx;">
+            </view>
             <view class="item flex-sub padding-xs margin-xs radius" style="height: 100rpx;">
             </view>
         </view>
@@ -78,26 +78,22 @@
                 </view>
                 <view class="item-title">今日油价</view>
             </view>
-            <view class="item flex-sub padding-xs margin-xs radius bg-gradual-blue" style="height: 100rpx;" bindtap="goto" data-tag="天气预报">
-                <view>
-                    <image src="../../images/天气预报.png" class="item-picture"></image>
-                </view>
-                <view class="item-title">天气预报</view>
-            </view>
             <!-- 格式占位 -->
+            <view class="item flex-sub padding-xs margin-xs radius" style="height: 100rpx;">
+            </view>
             <view class="item flex-sub padding-xs margin-xs radius" style="height: 100rpx;">
             </view>
         </view>
     </view>
     <!-- 房产 -->
     <view class="padding">
-        <view class="bg-gradual-green basis-xl margin-left-xs padding-sm radius">房产服务</view>
+        <view class="bg-gradual-green basis-xl margin-left-xs padding-sm radius">疫情防控</view>
         <view class="flex text-center">
-            <view class="item flex-sub padding-xs margin-xs radius bg-brown" style="height 100rpx;" bindtap="goto" data-tag="小区房产">
+            <view class="item flex-sub padding-xs margin-xs radius bg-brown" style="height 100rpx;" bindtap="goto" data-tag="防疫查询">
                 <view>
-                    <image src="../../images/房产.png" class="item-picture"></image>
+                    <image src="../../images/疫情防控.png" class="item-picture"></image>
                 </view>
-                <view class="item-title">小区房产</view>
+                <view class="item-title">防疫查询</view>
             </view>
             <!-- 格式占位 -->
             <view class="item flex-sub padding-xs margin-xs radius" style="height: 100rpx;">

@@ -1,0 +1,99 @@
+<cu-custom bgColor="bg-gradual-pink" isBack="{{true}}">
+    <view slot="backText">返回</view>
+    <view slot="content">我的场地申请记录</view>
+</cu-custom>
+<view class="page">
+    <scroll-view scroll-y="true">
+        <block wx:for="{{applicationList}}" wx:for-item="application" wx:for-index="index">
+            <view class="flex justify-center align-center">
+                <view class="shadow bg-white radius margin-sm" style="width: 95%;">
+                    <view class="flex margin-top-xs margin-left-xs">
+                        <view class="flex-sub text-cut" style="width: 90%;">申请编号：{{application.applicationId}}</view>
+                    </view>
+                    <view class="margin-top-xs margin-bottom-xs margin-left-xs">提交日期：{{application.applicationDate}}</view>
+                    <view class="margin-top-xs margin-bottom-xs margin-left-xs">
+                        处理状态：
+                        <view wx:if="{{application.result == '待审核'}}" class="cu-tag radius sm bg-orange">{{application.result}}</view>
+                        <view wx:elif="{{application.result == '通过'}}" class="cu-tag radius sm bg-green">{{application.result}}</view>
+                        <view wx:else class="cu-tag radius sm bg-red">{{application.result}}</view>
+                    </view>
+                    <view class="margin-top-xs margin-bottom-xs margin-left-xs">
+                        支付状态：<view class="cu-tag radius sm bg-{{application.payStatus == '未支付' ? 'red' : 'green'}}">{{application.payStatus}}</view>
+                    </view>
+                    <view class="flex justify-between margin-top-xs margin-bottom-xs margin-left-xs text-cut">
+                        <view class="text-cut">备注：{{application.resultDescription}}</view>
+                        <view class="cu-tag radius bg-green margin-right-sm" data-index="{{index}}" catchtap="showResult">显示全部</view>
+                    </view>
+                    <view class="margin-top-xs margin-bottom-xs margin-left-xs">申请场地编号：{{application.placeId}}</view>
+                    <view class="flex justify-between margin-top-xs margin-bottom-xs margin-left-xs text-cut">
+                        <view class="text-cut">申请原因：{{application.applicationReason}}</view>
+                        <view class="cu-tag radius bg-green margin-right-sm" data-index="{{index}}" catchtap="showReason">显示全部</view>
+                    </view>
+                    <view class="flex justify-end">
+                        <view hidden="{{application.payStatus == '已支付'}}" class="cu-tag radius bg-green margin-bottom-sm margin-right-xs" catchtap="showPay" data-index="{{index}}">点我支付</view>
+                        <view class="cu-tag radius bg-red margin-left-sm margin-bottom-sm margin-right-sm" catchtap="delete" data-index="{{index}}">{{application.result == '通过' ? '删除' : '取消'}}</view>
+                    </view>
+                </view>
+            </view>
+        </block>
+    </scroll-view>
+</view>
+
+<!-- 显示完整的维修要求 -->
+<view class="cu-modal {{showAllContent=='yes'?'show':''}}">
+  <view class="cu-dialog">
+    <view class="cu-bar bg-white justify-end">
+      <view class="content">{{title}}</view>
+      <view class="action" bindtap="hideModal">
+        <text class="cuIcon-close text-red"></text>
+      </view>
+    </view>
+    <view class="padding-xl">
+        {{allContent}}
+    </view>
+  </view>
+</view>
+
+<!-- 支付码展示 -->
+<view class="cu-modal {{showQrCode=='yes'?'show':''}}">
+    <view class="cu-dialog">
+        <view class="cu-bar bg-white justify-end">
+            <view class="content">扫码支付</view>
+            <view class="action" bindtap="hideModal" data-name="QrCode">
+                <text class="cuIcon-close text-red"></text>
+            </view>
+        </view>
+        <view class="padding-xl">
+            <view class="flex justify-center">
+                <view class="padding">
+                    <image style="height: 150px; width: 150px" src="{{payCode}}" bindtap="previewQrCode"></image>
+                </view>
+                <view class="padding">
+                    点击左方二维码,长按保存,打开微信扫一扫,进行扫码支付,<text style="color: red;">5天内有效,支付后</text>,维修人员将上门服务!
+                </view>
+            </view>
+        </view>
+        <view class="cu-bar bg-white justify-end">
+            <view class="action">
+                <button class="cu-btn ling-green text-green margin-right" bindtap="getQrCode">重新获取</button>
+                <button class="cu-btn line-green text-green" bindtap="toPayStep">教我操作</button>
+                <button class="cu-btn bg-green margin-left" bindtap="hideModal" data-name="QrCode">我明白了</button>
+            </view>
+        </view>
+    </view>
+</view>
+
+<!-- 显示提示 -->
+<view class="cu-modal {{showTips=='yes'?'show':''}}">
+  <view class="cu-dialog">
+    <view class="cu-bar bg-white justify-end">
+      <view class="content">提示</view>
+      <view class="action" bindtap="hideModal">
+        <text class="cuIcon-close text-red"></text>
+      </view>
+    </view>
+    <view class="padding-xl">
+        {{tips}}
+    </view>
+  </view>
+</view>

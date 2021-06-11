@@ -1,4 +1,5 @@
-const baseUrl = 'http://localhost:8080/bysj/announcement/';  // 请求前缀
+const baseUrl = 'https://codemata.club/bysj/announcement/';  // 请求前缀
+const app = getApp();
 Page({
 
     /**
@@ -136,7 +137,8 @@ Page({
               page: 1,
               limit: that.data.limit,
               property: that.data.property[that.data.index],
-              value: that.data.inputValue
+              value: that.data.inputValue,
+              userId: wx.getStorageSync('openid')
           },
           header: {'Content-Type': 'application/x-www-form-urlencoded'},
           dataType: 'json',
@@ -152,13 +154,29 @@ Page({
                   that.setData({
                     pageNum: Math.ceil(that.data.count / that.data.limit)
                   });
-                  console.log("count:" + that.data.count);
-                  console.log("pageNum:" + that.data.pageNum);
+                  // 将数据存入缓存
+                  for (let i = 0; i < res.data.announcements.length; ++i) {
+                      wx.setStorageSync(res.data.announcements[i].id, res.data.announcements[i]);
+                  }
               }
           },
           fail: function (res) {
               console.log(res);
           }
+        });
+    },
+
+    /**
+     * @author DengJie
+     * @param {*} e 
+     * @date 2021-04-02
+     * @description 跳转至公告详情界面
+     */
+    toDetail: function (e) {
+        // 页面跳转并且携带被点击公告的ID
+        console.log(e.currentTarget.dataset);
+        wx.redirectTo({
+          url: '../announcementDetail/announcementDetail?announcementId=' + e.currentTarget.dataset.announcementid,
         });
     },
 
@@ -183,7 +201,9 @@ Page({
         // 查询置顶公告
         wx.request({
           url: baseUrl + 'getTopAnnouncement.do',
-          data: {},
+          data: {
+              userId: wx.getStorageSync('openid')
+          },
           header: {'Content-Type': 'application/x-www-form-urlencoded'},
           method: 'POST',
           dataType: 'json',
@@ -193,6 +213,10 @@ Page({
                       topIsExist: true,
                       topAnnouncement: res.data.announcements[0]
                   });
+                  // 数据存入缓存
+                  for (let i = 0; i < res.data.announcements.length; ++i) {
+                      wx.setStorageSync(res.data.announcements[i].id, res.data.announcements[i]);
+                  }
               }
           },
           fail: function(res) {
@@ -209,7 +233,8 @@ Page({
           url: baseUrl + 'getAnnouncements.do',
           data: {
               page: that.data.page,
-              limit: that.data.limit
+              limit: that.data.limit,
+              userId: wx.getStorageSync('openid')
           },
           header: {'Content-Type': 'application/x-www-form-urlencoded'},
           method: 'POST',
@@ -224,6 +249,10 @@ Page({
                   that.setData({
                     pageNum: Math.ceil(that.data.count / that.data.limit)
                   });
+                  // 数据存入缓存
+                  for (let i = 0; i < res.data.announcements.length; ++i) {
+                      wx.setStorageSync(res.data.announcements[i].id, res.data.announcements[i]);
+                  }
               }
           },
           fail: function () {
@@ -291,7 +320,8 @@ Page({
               page: that.data.page,
               limit: that.data.limit,
               property: that.data.property[that.data.index],
-              value: that.data.inputValue
+              value: that.data.inputValue,
+              userId: wx.getStorageSync('openid')
           },
           header: {'Content-Type': 'application/x-www-form-urlencoded'},
           method: 'POST',
@@ -306,7 +336,10 @@ Page({
                       page: that.data.page + 1,
                       announcements: announcements
                   });
-                  console.log(that.data.announcements);
+                  // 数据存入缓存
+                  for (let i = 0; i < res.data.announcements.length; ++i) {
+                      wx.setStorageSync(res.data.announcements[i].id, res.data.announcements[i]);
+                  }
               }
           },
           fail: function (res) {

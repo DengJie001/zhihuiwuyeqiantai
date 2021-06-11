@@ -1,0 +1,69 @@
+<cu-custom bgColor="bg-gradual-pink" isBack="{{true}}">
+    <view slot="backText">返回</view>
+    <view slot="content">投诉详情</view>
+</cu-custom>
+<view class="page">
+    <view class="cu-timeline maring-top">
+        <view class="cu-item">
+            <view class="content">
+                <view class="cu-capsule radius">
+                    <view class="cu-tag bg-cyan">日期</view>
+                    <view class="cu-tag line-cyan">{{complaint.complaintDate}}</view>
+                </view>
+                <view class="margin-top">
+                    {{complaint.messageContent}}
+                </view>
+            </view>
+        </view>
+        <view class="cu-item">
+            <view class="content">
+                <view class="cu-capsule radius">
+                    <view class="cu-tag bg-cyan">日期</view>
+                    <view class="cu-tag line-cyan">{{complaint.responseDate == '' ? nowDate : complaint.responseDate}}</view>
+                </view>
+                <view class="margin-top">{{complaint.managerResponse == '' ? '暂无回复' : complaint.managerResponse}}</view>
+            </view>
+        </view>
+    </view>
+    <view hidden="{{complaint.complaintPicture.length == 0}}" class="bg-white padding">
+        <view class="grid col-4 grid-square">
+            <block wx:for="{{complaint.complaintPicture}}" wx:for-index="{{index}}" wx:for-item="item">
+                <view class="bg-img" style="background-image:url({{item}});"></view>
+            </block>
+        </view>
+    </view>
+    <view class="bg-white">
+        <view class="flex solid-bottom padding justify-between">
+            <view bindtap="submitUserResult" data-result="满意">
+                <view class="cu-capsule round">
+                    <view class="cu-tag bg-green">满意</view>
+                    <view class="cu-tag line-green">
+                        <text class="cuIcon-appreciatefill text-green"></text>
+                    </view>
+                </view>
+            </view>
+            <view bindtap="submitUserResult" data-result="不满意">
+                <view class="cu-capsule round">
+                    <view class="cu-tag bg-red">不满意</view>
+                    <view class="cu-tag line-red">
+                        <text class="cuIcon-close text-red"></text>
+                    </view>
+                </view>
+            </view>
+        </view>
+    </view>
+</view>
+<!-- 提示窗 -->
+<view class="cu-modal {{showModal=='yes'?'show':''}}">
+  <view class="cu-dialog">
+    <view class="cu-bar bg-white justify-end">
+      <view class="content">提示</view>
+      <view class="action" bindtap="hideModal">
+        <text class="cuIcon-close text-red"></text>
+      </view>
+    </view>
+    <view class="padding-xl">
+        {{tips}}
+    </view>
+  </view>
+</view>

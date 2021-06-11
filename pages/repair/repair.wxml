@@ -2,3 +2,63 @@
     <view slot="backText">返回</view>
     <view slot="content">物业维修</view>
 </cu-custom>
+<view class="page">
+    <view class="cu-bar bg-white search">
+        <view class="cu-form-group">
+            <picker bindchange="pickerChange" value="{{propertyIndex}}" range="{{properties}}">
+                <view class="picker">
+                    {{properties[[propertyIndex]]}}
+                </view>
+            </picker>
+        </view>
+        <view class="search-form round">
+            <text class="cuIcon-search"></text>
+            <input type="text" placeholder="输入关键字进行查询" data-key="keyWords" bindinput="getInputValue" />
+        </view>
+        <view style="margin-left: 20rpx;">
+            <button class="cu-btn round bg-blue button-hover" bindtap="search">搜索</button>
+        </view>
+    </view>
+
+    <!-- 场地信息列表 -->
+    <scroll-view scroll-y="true">
+        <block wx:for="{{workers}}" wx:for-item="worker" wx:for-index="index">
+            <view class="cu-card article">
+                <view class="cu-item shadow" bindtap="toDetail" data-index="{{index}}">
+                    <view class="flex margin-top-sm margin-left-xs margin-bottom-sm">
+                        <view class="flex-sub text-cut" style="width: 90%;" id="workerId"># {{worker.workerId}}</view>
+                        <view class="flex justify-end margin-right-sm">
+                            <view class="cu-tag bg-red" wx:if="{{worker.score < 60}}">{{worker.score}}分</view>
+                            <view class="cu-tag bg-orange" wx:if="{{worker.score >= 60 && worker.score < 80}}">{{worker.score}}分</view>
+                            <view class="cu-tag bg-green" wx:if="{{worker.score >= 80}}">{{worker.score}}分</view>
+                        </view>
+                    </view>
+                    <view class="content">
+                        <image style="width: 300rpx;" src="{{worker.workerAvatar}}" catchtap="previewPictures" data-index="{{index}}"></image>
+                        <view class="grid col-1">
+                            <view class="margin-top-xs margin-left-xs">姓名：{{worker.workerName}}</view>
+                            <view class="margin-top-xs margin-bottom-xs margin-left-xs">价格：{{worker.cost}}元/次</view>
+                            <view class="margin-bottom-xs margin-left-xs">等待人数：{{worker.wait}}</view>
+                        </view>
+                    </view>
+                    <view class="text-cut margin-top-xs" style="margin-left: 16px;" bindtap="">介绍：{{worker.workerDescription}}</view>
+                </view>
+            </view>
+        </block>
+    </scroll-view>
+</view>
+
+<!-- 提示 -->
+<view class="cu-modal {{showModal=='yes'?'show':''}}">
+    <view class="cu-dialog">
+        <view class="cu-bar bg-white justify-end">
+            <view class="content">提示</view>
+            <view class="action" bindtap="hideModal">
+                <text class="cuIcon-close text-red"></text>
+            </view>
+        </view>
+        <view class="padding-xl">
+            {{tips}}
+        </view>
+    </view>
+</view>

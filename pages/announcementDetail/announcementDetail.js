@@ -5,14 +5,46 @@ Page({
      * 页面的初始数据
      */
     data: {
+        announcement: {},    // 从缓存中获取的公告信息
+        tips: ''    // 提示
+    },
 
+    /**
+     * @author DengJie
+     * @date 2021-04-04
+     * @description 弹出疑问提示框
+     */
+    question: function () {
+        var that = this;
+        that.setData({
+            modal: 'yes',
+            tips: '若有疑问,请联系管理员:' + that.data.announcement.authorTel
+        });
+    },
+
+    /**
+     * @authro DengJie
+     * @date 2021-04-04
+     * @description 隐藏疑问提示框
+     */
+    hideModal: function () {
+        var that = this;
+        that.setData({
+            modal: 'no'
+        });
     },
 
     /**
      * 生命周期函数--监听页面加载
      */
     onLoad: function (options) {
-
+        var that = this;
+        var announcement = wx.getStorageSync(options.announcementId);
+        announcement.content = announcement.content.replace('<br/>', '\n');
+        that.setData({
+            announcement: announcement
+        });
+        console.log(that.data.announcement);
     },
 
     /**
